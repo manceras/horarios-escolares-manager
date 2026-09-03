@@ -1,0 +1,31 @@
+name: Bug report
+description: Something does not work as expected
+labels: [bug]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: school-shape
+    attributes:
+      label: School data involved
+      description: >
+        Number of groups, teachers and periods, and any unusual constraint. If the
+        solver is involved, the curriculum entries that triggered it help most.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options: [solver, api, web, deployment, docs, not sure]
+    validations:
+      required: true

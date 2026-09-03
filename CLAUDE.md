@@ -71,6 +71,18 @@ A change is finished when all of these hold:
 - A schema change ships with an Alembic migration.
 - A decision that constrains future work is recorded as an ADR in `docs/adr/`.
 
+## This is a public, open-source project
+
+The repository is MIT-licensed and public. Assume a stranger will read every
+line you write:
+
+- No secrets, no real school data, no personal data in code, fixtures or tests.
+  Sample data uses `example.org` addresses.
+- Public-facing documents (`README.md`, `CONTRIBUTING.md`, issue templates) are
+  English; `README.es.md` is the Spanish translation and must be updated with it.
+- Record user-visible changes under `## [Unreleased]` in `CHANGELOG.md`.
+- Do not overstate what works. The status list in the README reflects reality.
+
 ## Scope discipline
 
 Implement what was asked. If you spot an adjacent problem, write it down in the
