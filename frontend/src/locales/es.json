@@ -1,0 +1,40 @@
+{
+  "app": {
+    "title": "Horarios",
+    "loading": "Cargando…",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "retry": "Reintentar"
+  },
+  "nav": {
+    "teachers": "Profesorado",
+    "groups": "Grupos",
+    "schedule": "Horario",
+    "logout": "Cerrar sesión"
+  },
+  "login": {
+    "title": "Iniciar sesión",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "submit": "Entrar"
+  },
+  "teachers": {
+    "title": "Profesorado",
+    "empty": "Todavía no hay profesorado registrado.",
+    "createButton": "Añadir profesor/a",
+    "name": "Nombre",
+    "email": "Correo",
+    "specialist": "Especialista",
+    "maxPeriods": "Máx. sesiones/semana",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "errors": {
+    "unknown": "Ha ocurrido un error inesperado.",
+    "not_found": "No se ha encontrado el recurso.",
+    "conflict": "Ya existe un registro con esos datos.",
+    "validation_error": "Los datos introducidos no son válidos.",
+    "permission_denied": "No tienes permiso para hacer esto.",
+    "authentication_error": "Usuario o contraseña incorrectos."
+  }
+}

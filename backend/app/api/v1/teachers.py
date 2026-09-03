@@ -8,10 +8,11 @@ from collections.abc import Sequence
 from fastapi import APIRouter, status
 
 from app.api.deps import AnyUser, StaffUser, TeacherServiceDep
+from app.api.responses import ERROR_RESPONSES
 from app.models.school import Teacher
 from app.schemas.teacher import TeacherCreate, TeacherRead, TeacherUpdate
 
-router = APIRouter(prefix="/teachers", tags=["teachers"])
+router = APIRouter(prefix="/teachers", tags=["teachers"], responses=ERROR_RESPONSES)
 
 
 @router.get("", response_model=list[TeacherRead])

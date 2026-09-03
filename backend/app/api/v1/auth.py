@@ -3,10 +3,11 @@
 from fastapi import APIRouter
 
 from app.api.deps import AuthServiceDep, CurrentUser
+from app.api.responses import ERROR_RESPONSES
 from app.models.user import User
 from app.schemas.auth import LoginRequest, TokenResponse, UserRead
 
-router = APIRouter(prefix="/auth", tags=["auth"])
+router = APIRouter(prefix="/auth", tags=["auth"], responses=ERROR_RESPONSES)
 
 
 @router.post("/login", response_model=TokenResponse)
