@@ -2,11 +2,14 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import { AppLayout } from "@/app/AppLayout";
 import { RequireAuth } from "@/app/RequireAuth";
+import { ClassGroupsPage } from "@/routes/ClassGroupsPage";
 import { CurriculumPage } from "@/routes/CurriculumPage";
 import { LoginPage } from "@/routes/LoginPage";
 import { RoomsPage } from "@/routes/RoomsPage";
 import { SubjectsPage } from "@/routes/SubjectsPage";
+import { TeacherAvailabilityPage } from "@/routes/TeacherAvailabilityPage";
 import { TeachersPage } from "@/routes/TeachersPage";
+import { TimeSlotsPage } from "@/routes/TimeSlotsPage";
 
 /** One entry per URL. Pages live in `src/routes`, never inline here. */
 export const router = createBrowserRouter([
@@ -21,8 +24,11 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/teachers" replace /> },
       { path: "teachers", element: <TeachersPage /> },
-      { path: "rooms", element: <RoomsPage /> },
+      { path: "teacher-availability", element: <TeacherAvailabilityPage /> },
+      { path: "class-groups", element: <ClassGroupsPage /> },
       { path: "subjects", element: <SubjectsPage /> },
+      { path: "rooms", element: <RoomsPage /> },
+      { path: "time-slots", element: <TimeSlotsPage /> },
       { path: "curriculum", element: <CurriculumPage /> },
     ],
   },

@@ -5,10 +5,15 @@ import { Button } from "@/components/ui/button";
 import { clearToken } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
 
+// Ordered the way a school sets its timetable up: staff, then structure, then
+// what each group studies.
 const NAV_ITEMS = [
   { to: "/teachers", labelKey: "nav.teachers" },
-  { to: "/rooms", labelKey: "nav.rooms" },
+  { to: "/teacher-availability", labelKey: "nav.availability" },
+  { to: "/class-groups", labelKey: "nav.groups" },
   { to: "/subjects", labelKey: "nav.subjects" },
+  { to: "/rooms", labelKey: "nav.rooms" },
+  { to: "/time-slots", labelKey: "nav.timeSlots" },
   { to: "/curriculum", labelKey: "nav.curriculum" },
 ] as const;
 

@@ -24,4 +24,11 @@ export const queryKeys = {
     all: ["curriculum-entries"] as const,
     workload: ["curriculum-entries", "workload"] as const,
   },
+  timeSlots: {
+    all: ["time-slots"] as const,
+    detail: (id: number) => ["time-slots", id] as const,
+  },
+  teacherUnavailabilities: {
+    byTeacher: (teacherId: number) => ["teacher-unavailabilities", teacherId] as const,
+  },
 } as const;
