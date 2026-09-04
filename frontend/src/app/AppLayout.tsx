@@ -9,6 +9,7 @@ const NAV_ITEMS = [
   { to: "/teachers", labelKey: "nav.teachers" },
   { to: "/rooms", labelKey: "nav.rooms" },
   { to: "/subjects", labelKey: "nav.subjects" },
+  { to: "/curriculum", labelKey: "nav.curriculum" },
 ] as const;
 
 export function AppLayout() {

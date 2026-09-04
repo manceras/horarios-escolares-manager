@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import { AppLayout } from "@/app/AppLayout";
 import { RequireAuth } from "@/app/RequireAuth";
+import { CurriculumPage } from "@/routes/CurriculumPage";
 import { LoginPage } from "@/routes/LoginPage";
 import { RoomsPage } from "@/routes/RoomsPage";
 import { SubjectsPage } from "@/routes/SubjectsPage";
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
       { path: "teachers", element: <TeachersPage /> },
       { path: "rooms", element: <RoomsPage /> },
       { path: "subjects", element: <SubjectsPage /> },
+      { path: "curriculum", element: <CurriculumPage /> },
     ],
   },
 ]);

@@ -32,6 +32,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Rooms and subjects screens, with room type shown as a translated label and a
   subject's required room type selectable (including "no special room
   required").
+- Curriculum screen: assign a subject and teacher to a class group with a
+  weekly period count, grouped by class group with a subtotal, plus the
+  workload report (assigned vs. available periods per group, assigned vs.
+  maximum per teacher) so a head of studies sees whether a timetable is
+  possible before generating one.
 
 ### Changed
 

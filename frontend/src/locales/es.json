@@ -20,7 +20,8 @@
     "rooms": "Aulas",
     "subjects": "Asignaturas",
     "schedule": "Horario",
-    "logout": "Cerrar sesión"
+    "logout": "Cerrar sesión",
+    "curriculum": "Carga lectiva"
   },
   "login": {
     "title": "Iniciar sesión",
@@ -106,5 +107,47 @@
     "validation_error": "Los datos introducidos no son válidos.",
     "permission_denied": "No tienes permiso para hacer esto.",
     "authentication_error": "Usuario o contraseña incorrectos."
+  },
+  "curriculum": {
+    "title": "Carga lectiva",
+    "empty": "Todavía no hay carga lectiva asignada.",
+    "createButton": "Añadir asignación",
+    "createTitle": "Añadir asignación",
+    "editTitle": "Editar asignación",
+    "deleteTitle": "Eliminar asignación",
+    "deleteConfirm": "¿Seguro que quieres eliminar {{subject}} de {{classGroup}}? Esta acción no se puede deshacer.",
+    "createSuccess": "Asignación añadida.",
+    "updateSuccess": "Asignación actualizada.",
+    "deleteSuccess": "Asignación eliminada.",
+    "classGroup": "Grupo",
+    "subject": "Asignatura",
+    "teacher": "Profesor/a",
+    "periodsPerWeek": "Sesiones/semana",
+    "selectPlaceholder": "Selecciona una opción",
+    "groupSubtotal": "Subtotal: {{count}} sesiones/semana",
+    "validation": {
+      "classGroupRequired": "Selecciona un grupo.",
+      "subjectRequired": "Selecciona una asignatura.",
+      "teacherRequired": "Selecciona un profesor/a.",
+      "periodsInvalid": "Introduce un número de sesiones mayor que cero.",
+      "serverDetail": "Detalle del servidor: {{detail}}"
+    }
+  },
+  "workload": {
+    "title": "Carga de trabajo",
+    "groupsTitle": "Grupos",
+    "teachersTitle": "Profesorado",
+    "classGroup": "Grupo",
+    "teacher": "Profesor/a",
+    "assignedOfAvailable": "Asignadas / disponibles",
+    "assignedOfMax": "Asignadas / máximo",
+    "periodsRatio": "{{assigned}} de {{total}}",
+    "status": "Estado",
+    "fits": "Cabe",
+    "doesNotFit": "No cabe",
+    "groupHint": "El horario no será posible hasta que se quiten sesiones de este grupo.",
+    "teacherHint": "El horario no será posible hasta que se quiten sesiones o se aumente el máximo semanal de este profesor/a.",
+    "groupsEmpty": "Todavía no hay grupos.",
+    "teachersEmpty": "Todavía no hay profesorado."
   }
 }

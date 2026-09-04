@@ -16,4 +16,12 @@ export const queryKeys = {
     all: ["subjects"] as const,
     detail: (id: number) => ["subjects", id] as const,
   },
+  classGroups: {
+    all: ["class-groups"] as const,
+    detail: (id: number) => ["class-groups", id] as const,
+  },
+  curriculumEntries: {
+    all: ["curriculum-entries"] as const,
+    workload: ["curriculum-entries", "workload"] as const,
+  },
 } as const;
