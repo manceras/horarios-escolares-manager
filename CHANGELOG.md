@@ -30,6 +30,13 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   translate backend error codes.
 - Teachers screen completed with create, edit and delete.
 
+### Changed
+
+- Development seed data now describes a full six-grade school: six groups with
+  their tutors, three rotating specialists, nine subjects with their statutory
+  weekly load, special rooms, and a part-time teacher who is unavailable two days
+  a week. The previous single-group sample could not exercise the solver.
+
 ### Fixed
 
 - The solver no longer discards a locked session it cannot place. When school
