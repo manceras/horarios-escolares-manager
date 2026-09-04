@@ -16,6 +16,7 @@ const NAV_ITEMS = [
   { to: "/time-slots", labelKey: "nav.timeSlots" },
   { to: "/curriculum", labelKey: "nav.curriculum" },
   { to: "/schedules/print", labelKey: "nav.print" },
+  { to: "/schedules", labelKey: "nav.schedules" },
 ] as const;
 
 export function AppLayout() {

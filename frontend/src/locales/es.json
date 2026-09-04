@@ -32,7 +32,8 @@
     "curriculum": "Carga lectiva",
     "timeSlots": "Franjas horarias",
     "availability": "Disponibilidad",
-    "print": "Imprimir horarios"
+    "print": "Imprimir horarios",
+    "schedules": "Horarios"
   },
   "login": {
     "title": "Iniciar sesión",
@@ -237,6 +238,78 @@
     "sheetHeading": "{{schedule}} · {{scope}}: {{name}}",
     "columns": {
       "time": "Hora"
+    }
+  },
+  "schedules": {
+    "title": "Horarios",
+    "empty": "Todavía no hay ningún horario.",
+    "createButton": "Nuevo horario",
+    "createTitle": "Nuevo horario",
+    "deleteTitle": "Eliminar horario",
+    "deleteConfirm": "¿Seguro que quieres eliminar el horario «{{name}}»? Esta acción no se puede deshacer.",
+    "publishTitle": "Publicar horario",
+    "publishConfirm": "Al publicar «{{name}}» dejará de poder editarse y pasará a ser el horario oficial del centro. ¿Quieres continuar?",
+    "createSuccess": "Horario creado.",
+    "deleteSuccess": "Horario eliminado.",
+    "publishSuccess": "Horario publicado.",
+    "name": "Nombre",
+    "status": "Estado",
+    "createdAt": "Creado",
+    "generatedAt": "Última generación",
+    "publish": "Publicar",
+    "backToList": "← Volver a los horarios",
+    "readOnlyNotice": "Este horario está publicado, así que solo puede consultarse. Crea un borrador nuevo para hacer cambios.",
+    "statuses": {
+      "draft": "Borrador",
+      "published": "Publicado",
+      "archived": "Archivado"
+    },
+    "generationTitle": "Generación automática",
+    "generationHint": "El solver coloca todas las sesiones pendientes y respeta las que están fijadas. Puede tardar unos segundos.",
+    "generate": "Generar horario",
+    "generating": "Generando…",
+    "solverStatusLabel": "Resultado del solver",
+    "sessionsPlaced": "Sesiones colocadas",
+    "neverGenerated": "Sin generar",
+    "solverStatus": {
+      "optimal": "Óptimo",
+      "feasible": "Válido",
+      "infeasible": "Sin solución",
+      "unknown": "Desconocido"
+    },
+    "infeasibleTitle": "No hay ningún horario posible con estas restricciones.",
+    "infeasibleHint": "No se ha guardado ningún cambio. Revisa la carga lectiva, las indisponibilidades del profesorado y las aulas disponibles. El detalle técnico del solver es:",
+    "slotColumn": "Franja",
+    "gridCaption": "Horario semanal por grupo y franja horaria.",
+    "gridEmpty": "Define primero las franjas horarias y los grupos para poder ver el horario.",
+    "breakSlot": "Recreo",
+    "unknownWeekday": "Día desconocido",
+    "noRoom": "Sin aula",
+    "move": "Mover",
+    "cancelMove": "Cancelar",
+    "moveHere": "Mover aquí ({{slot}})",
+    "lock": "Fijar sesión",
+    "unlock": "Liberar sesión",
+    "lockedSession": "Sesión fijada",
+    "conflictsTitle": "Conflictos",
+    "noConflicts": "Este horario no tiene ningún conflicto.",
+    "conflictCodes": {
+      "unknown": "Hay un conflicto en el horario.",
+      "unknown_reference": "Una sesión apunta a una carga lectiva o a una franja que ya no existe.",
+      "teaching_in_break": "Hay una sesión colocada en un recreo.",
+      "teacher_unavailable": "El profesor o la profesora no está disponible en esa franja.",
+      "wrong_room_type": "La asignatura necesita un aula de otro tipo.",
+      "curriculum_not_covered": "Faltan sesiones por colocar para esta carga lectiva.",
+      "teacher_overloaded": "El profesor o la profesora supera su máximo de sesiones semanales.",
+      "teacher_overlap": "El profesor o la profesora tiene dos sesiones a la vez.",
+      "group_overlap": "El grupo tiene dos sesiones a la vez.",
+      "room_overlap": "El aula está ocupada por dos sesiones a la vez."
+    },
+    "editErrors": {
+      "conflict": "No se ha podido guardar el cambio: rompe una restricción del horario (el profesorado, el grupo o el aula ya están ocupados en esa franja, o el horario ya está publicado). La sesión vuelve a su sitio."
+    },
+    "validation": {
+      "nameRequired": "El nombre es obligatorio."
     }
   }
 }
