@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
-import { toApiError } from "@/lib/api/client";
+import { getErrorMessageKeys } from "@/lib/api/error-translation";
 
 interface QueryStateProps {
   isLoading: boolean;
@@ -21,10 +21,9 @@ export function QueryState({ isLoading, error, onRetry }: QueryStateProps) {
   }
 
   if (error !== null && error !== undefined) {
-    const { code } = toApiError(error);
     return (
       <div className="flex items-center gap-3">
-        <p className="text-sm text-destructive">{t([`errors.${code}`, "errors.unknown"])}</p>
+        <p className="text-sm text-destructive">{t(getErrorMessageKeys(error))}</p>
         {onRetry ? (
           <Button variant="outline" size="sm" onClick={onRetry}>
             {t("app.retry")}
