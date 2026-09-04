@@ -29,6 +29,11 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `EntityDialog`, `ConfirmDialog`, a typed form helper and app-level toasts that
   translate backend error codes.
 - Teachers screen completed with create, edit and delete.
+- Curriculum screen: assign a subject and teacher to a class group with a
+  weekly period count, grouped by class group with a subtotal, plus the
+  workload report (assigned vs. available periods per group, assigned vs.
+  maximum per teacher) so a head of studies sees whether a timetable is
+  possible before generating one.
 
 ### Fixed
 

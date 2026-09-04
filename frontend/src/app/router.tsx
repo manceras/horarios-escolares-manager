@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import { AppLayout } from "@/app/AppLayout";
 import { RequireAuth } from "@/app/RequireAuth";
+import { CurriculumPage } from "@/routes/CurriculumPage";
 import { LoginPage } from "@/routes/LoginPage";
 import { TeachersPage } from "@/routes/TeachersPage";
 
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Navigate to="/teachers" replace /> },
       { path: "teachers", element: <TeachersPage /> },
+      { path: "curriculum", element: <CurriculumPage /> },
     ],
   },
 ]);
