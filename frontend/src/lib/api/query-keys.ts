@@ -8,4 +8,12 @@ export const queryKeys = {
     all: ["teachers"] as const,
     detail: (id: number) => ["teachers", id] as const,
   },
+  rooms: {
+    all: ["rooms"] as const,
+    detail: (id: number) => ["rooms", id] as const,
+  },
+  subjects: {
+    all: ["subjects"] as const,
+    detail: (id: number) => ["subjects", id] as const,
+  },
 } as const;

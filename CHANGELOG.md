@@ -29,6 +29,9 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `EntityDialog`, `ConfirmDialog`, a typed form helper and app-level toasts that
   translate backend error codes.
 - Teachers screen completed with create, edit and delete.
+- Rooms and subjects screens, with room type shown as a translated label and a
+  subject's required room type selectable (including "no special room
+  required").
 
 ### Fixed
 
