@@ -21,4 +21,6 @@ deploy it in a school:
 - set a long random `SECRET_KEY`; the default value in `.env.example` is not one
 - serve it over HTTPS — access tokens travel in the `Authorization` header
 - restrict access to the SQLite volume and back it up somewhere encrypted
-- change the seeded `admin@example.org` account before letting anyone in
+- never run `make seed` against a real school: it inserts sample data and
+  accounts whose password is public. Create the first account with
+  `make create-user`, which prompts for a password of at least 12 characters

@@ -33,7 +33,7 @@ review, adjust and print it.
 - [x] Weekly grid UI: run the solver, see conflicts, move and lock sessions with
       the server validating every edit, publish a schedule
 - [x] Printable views and CSV export per teacher, group and room
-- [ ] User management screen (users are created in the database today)
+- [ ] User management screen (accounts are created with `make create-user` today)
 - [ ] More than one school year at a time
 
 Follow the issues if you want to help with any of the unchecked items.
@@ -94,6 +94,20 @@ docker compose up -d --build
 The web app is served on port 8080 and proxies `/api` to the API container. The
 SQLite database lives in the `api-data` volume — back it up.
 
+### Creating the first account
+
+There is no public registration: a school's staff list is not self-service, and
+`make seed` is development data that must never be loaded into a real school.
+Create the first administrator from the command line, which prompts for the
+password so it never lands in your shell history:
+
+```sh
+make create-user                                               # local
+docker compose exec api uv run python scripts/create_user.py   # deployed
+```
+
+Later accounts are created the same way.
+
 ## Everyday commands
 
 ```sh
@@ -101,6 +115,7 @@ make check      # lint, types and tests for both sides. Run before every commit
 make fix        # auto-fix formatting and lint
 make gen-api    # regenerate the frontend client after an API change
 make migration name=add_rooms
+make create-user    # create an account (prompts for the password)
 ```
 
 ## Contributing

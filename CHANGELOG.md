@@ -38,6 +38,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   maximum per teacher) so a head of studies sees whether a timetable is
   possible before generating one.
 
+### Added
+
+- `make create-user`, a command-line way to create an account. It prompts for the
+  password, so a real deployment no longer depends on the development seed and
+  its public password to get its first administrator in.
+
 ### Changed
 
 - Development seed data now describes a full six-grade school: six groups with

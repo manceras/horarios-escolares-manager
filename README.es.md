@@ -30,7 +30,7 @@ restricciones, para después revisarlo, ajustarlo e imprimirlo.
 - [x] Rejilla semanal: lanzar el solver, ver conflictos, mover y bloquear
       sesiones con el servidor validando cada cambio, y publicar el horario
 - [x] Vistas imprimibles y exportación CSV por profesor, grupo y aula
-- [ ] Pantalla de gestión de usuarios (hoy se crean en la base de datos)
+- [ ] Pantalla de gestión de usuarios (hoy se crean con `make create-user`)
 - [ ] Más de un curso escolar a la vez
 
 ## Restricciones que entiende el motor
@@ -76,6 +76,20 @@ docker compose up -d --build
 
 La web se sirve en el puerto 8080 y hace de proxy de `/api` hacia el contenedor
 de la API. La base de datos SQLite vive en el volumen `api-data`: haz copia.
+
+### Crear la primera cuenta
+
+No hay registro público: el personal de un colegio no se da de alta solo, y
+`make seed` son datos de desarrollo que nunca deben cargarse en un colegio real.
+Crea el primer administrador desde la línea de comandos, que pide la contraseña
+para que no quede en el historial del shell:
+
+```sh
+make create-user                                               # en local
+docker compose exec api uv run python scripts/create_user.py   # desplegado
+```
+
+Las cuentas siguientes se crean igual.
 
 ## Contribuir
 
