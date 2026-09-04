@@ -25,9 +25,13 @@ restricciones, para después revisarlo, ajustarlo e imprimirlo.
 - [x] Informe de carga que avisa de que el horario es imposible antes de resolver
 - [x] Pantalla de profesorado, con las piezas compartidas de tabla, diálogo y
       formulario que reutilizarán el resto de pantallas
-- [ ] Pantallas para el resto de entidades
-- [ ] Rejilla semanal con arrastrar y soltar y avisos de conflicto en vivo
-- [ ] Vistas imprimibles y exportables por profesor, grupo y aula
+- [x] Pantallas para todas las entidades: profesorado, disponibilidad, grupos,
+      asignaturas, aulas, franjas y carga lectiva, con informe de viabilidad
+- [x] Rejilla semanal: lanzar el solver, ver conflictos, mover y bloquear
+      sesiones con el servidor validando cada cambio, y publicar el horario
+- [x] Vistas imprimibles y exportación CSV por profesor, grupo y aula
+- [ ] Pantalla de gestión de usuarios (hoy se crean en la base de datos)
+- [ ] Más de un curso escolar a la vez
 
 ## Restricciones que entiende el motor
 

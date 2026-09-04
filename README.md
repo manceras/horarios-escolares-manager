@@ -28,9 +28,13 @@ review, adjust and print it.
 - [x] Workload report that flags an impossible timetable before solving
 - [x] Web UI for teachers, with the shared table, dialog and form building blocks
       every other screen will reuse
-- [ ] Web UI for the remaining entities
-- [ ] Weekly grid UI with drag-and-drop and live conflict feedback
-- [ ] Printable and exportable views per teacher, group and room
+- [x] Web UI for every entity: teachers, availability, groups, subjects, rooms,
+      time slots and the curriculum, with a workload report
+- [x] Weekly grid UI: run the solver, see conflicts, move and lock sessions with
+      the server validating every edit, publish a schedule
+- [x] Printable views and CSV export per teacher, group and room
+- [ ] User management screen (users are created in the database today)
+- [ ] More than one school year at a time
 
 Follow the issues if you want to help with any of the unchecked items.
 
