@@ -7,7 +7,15 @@
     "cancel": "Cancelar",
     "retry": "Reintentar",
     "yes": "Sí",
-    "no": "No"
+    "no": "No",
+    "weekdays": {
+      "monday": "Lunes",
+      "tuesday": "Martes",
+      "wednesday": "Miércoles",
+      "thursday": "Jueves",
+      "friday": "Viernes",
+      "unknown": "Día desconocido"
+    }
   },
   "actions": {
     "title": "Acciones",
@@ -17,6 +25,8 @@
   "nav": {
     "teachers": "Profesorado",
     "groups": "Grupos",
+    "timeSlots": "Franjas horarias",
+    "availability": "Disponibilidad",
     "schedule": "Horario",
     "logout": "Cerrar sesión"
   },
@@ -50,6 +60,58 @@
       "emailInvalid": "Introduce un correo válido.",
       "maxPeriodsInvalid": "Introduce un número de sesiones mayor que cero."
     }
+  },
+  "classGroups": {
+    "title": "Grupos",
+    "empty": "Todavía no hay grupos registrados.",
+    "createButton": "Añadir grupo",
+    "createTitle": "Añadir grupo",
+    "editTitle": "Editar grupo",
+    "deleteTitle": "Eliminar grupo",
+    "deleteConfirm": "¿Seguro que quieres eliminar el grupo {{name}}? Esta acción no se puede deshacer.",
+    "createSuccess": "Grupo añadido.",
+    "updateSuccess": "Grupo actualizado.",
+    "deleteSuccess": "Grupo eliminado.",
+    "name": "Nombre",
+    "grade": "Curso",
+    "tutor": "Tutor/a",
+    "homeRoom": "Aula de referencia",
+    "unassigned": "Sin asignar",
+    "validation": {
+      "nameRequired": "El nombre es obligatorio.",
+      "gradeInvalid": "Introduce un curso entre 1 y 6."
+    }
+  },
+  "timeSlots": {
+    "title": "Franjas horarias",
+    "empty": "Todavía no hay franjas horarias registradas.",
+    "createButton": "Añadir franja",
+    "createTitle": "Añadir franja horaria",
+    "editTitle": "Editar franja horaria",
+    "deleteTitle": "Eliminar franja horaria",
+    "deleteConfirm": "¿Seguro que quieres eliminar la franja del {{day}}, sesión {{period}}? Esta acción no se puede deshacer.",
+    "createSuccess": "Franja horaria añadida.",
+    "updateSuccess": "Franja horaria actualizada.",
+    "deleteSuccess": "Franja horaria eliminada.",
+    "dayOfWeek": "Día de la semana",
+    "periodIndex": "Sesión",
+    "startTime": "Hora de inicio",
+    "endTime": "Hora de fin",
+    "isBreak": "Recreo",
+    "validation": {
+      "dayOfWeekInvalid": "Selecciona un día de la semana válido.",
+      "periodIndexInvalid": "Introduce un número de sesión válido.",
+      "startTimeRequired": "La hora de inicio es obligatoria.",
+      "endTimeRequired": "La hora de fin es obligatoria.",
+      "endTimeBeforeStart": "La hora de fin debe ser posterior a la de inicio."
+    }
+  },
+  "availability": {
+    "title": "Disponibilidad del profesorado",
+    "teacher": "Profesor/a",
+    "selectTeacherPlaceholder": "Selecciona un profesor o profesora",
+    "gridTitle": "Disponibilidad semanal",
+    "saveSuccess": "Disponibilidad guardada."
   },
   "errors": {
     "unknown": "Ha ocurrido un error inesperado.",
