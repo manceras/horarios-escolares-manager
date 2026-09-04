@@ -116,7 +116,4 @@ export function buildWeekGrid(
   });
 }
 
-/** `"09:00:00"` (from the API) to `"09:00"` (for print). */
-export function formatTime(time: string): string {
-  return time.slice(0, 5);
-}
+export { formatTime } from "@/lib/time-format";

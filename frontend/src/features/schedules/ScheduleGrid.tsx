@@ -121,7 +121,7 @@ export function ScheduleGrid({
                   colSpan={classGroups.length + 1}
                   className="border border-border bg-muted p-2 text-left font-semibold"
                 >
-                  {dayKey === undefined ? t("schedules.unknownWeekday") : t(dayKey)}
+                  {t(dayKey)}
                 </th>
               </tr>
               {day.slots.map((slot) => (

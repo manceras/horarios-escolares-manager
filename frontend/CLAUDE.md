@@ -129,6 +129,21 @@ error `code` to an i18n key.
    reusing the shared `app.*` / `actions.*` / `errors.*` keys instead of
    inventing new ones for "Save", "Cancel", "Edit", "Delete" or error text.
 
+## Shared helpers -- do not rewrite these
+
+Three screens needed the same two functions and three agents wrote them
+independently. They now live in exactly one place:
+
+- **`src/lib/weekdays.ts`** -- `day_of_week` is 0 (Monday) to 4 (Friday).
+  `weekdayTranslationKey(day)` maps the number to its `app.weekdays.*` key, and
+  `dayPeriodKey(day, period)` builds a grid cell lookup key. A raw weekday
+  number must never be formatted in a component.
+- **`src/lib/time-format.ts`** -- `formatTime("09:00:00")` gives `"09:00"`.
+  The API always sends `HH:MM:SS`; the UI always shows `HH:MM`.
+
+Before writing a small helper, grep for it. If two features need it, it belongs
+in `src/lib/`.
+
 ## i18n key namespaces
 
 - `app.*` -- app-wide chrome and generic words (`app.save`, `app.saving`,

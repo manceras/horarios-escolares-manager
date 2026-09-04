@@ -1,10 +1,10 @@
 import type { Conflict, ScheduledSession, TimeSlot } from "@/features/schedules/api";
 import { toApiError } from "@/lib/api/client";
 import { getErrorMessageKeys } from "@/lib/api/error-translation";
+import { formatTime } from "@/lib/time-format";
+import { weekdayTranslationKey } from "@/lib/weekdays";
 
 /** `day_of_week` is 0 = Monday … 4 = Friday; the school week has no weekend. */
-const WEEKDAY_KEYS = ["monday", "tuesday", "wednesday", "thursday", "friday"] as const;
-
 export interface ScheduleDay {
   dayOfWeek: number;
   slots: TimeSlot[];
@@ -49,16 +49,6 @@ export function groupSlotsByDay(slots: readonly TimeSlot[]): ScheduleDay[] {
 }
 
 /** i18n key for a weekday, or `undefined` for a day outside the school week. */
-export function weekdayKey(dayOfWeek: number): string | undefined {
-  const name = WEEKDAY_KEYS[dayOfWeek];
-  return name === undefined ? undefined : `app.weekdays.${name}`;
-}
-
-/** The API sends `"09:00:00"`; the grid shows `09:00`. */
-export function formatTime(value: string): string {
-  return value.slice(0, 5);
-}
-
 /** Conflicts have no id of their own; this one is stable across a refetch. */
 export function conflictId(conflict: Conflict): string {
   return `${conflict.code}:${conflict.entry_ids.join(",")}:${String(conflict.slot_id ?? "")}`;
@@ -100,3 +90,7 @@ export function getSessionEditErrorKeys(error: unknown): string[] {
   const { code } = toApiError(error);
   return [`schedules.editErrors.${code}`, ...getErrorMessageKeys(error)];
 }
+
+// Weekday and time formatting are shared with the availability and print
+// screens; this module only re-exports them so grid components have one import.
+export { formatTime, weekdayTranslationKey as weekdayKey };
