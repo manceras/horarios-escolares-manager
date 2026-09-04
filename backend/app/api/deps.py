@@ -14,6 +14,7 @@ from app.models.enums import UserRole
 from app.models.user import User
 from app.repositories.user_repository import UserRepository
 from app.services.auth_service import AuthService
+from app.services.curriculum_service import CurriculumEntryService
 from app.services.teacher_service import TeacherService
 
 SessionDep = Annotated[Session, Depends(get_session)]
@@ -75,5 +76,10 @@ def get_auth_service(session: SessionDep) -> AuthService:
     return AuthService(session)
 
 
+def get_curriculum_service(session: SessionDep) -> CurriculumEntryService:
+    return CurriculumEntryService(session)
+
+
 TeacherServiceDep = Annotated[TeacherService, Depends(get_teacher_service)]
 AuthServiceDep = Annotated[AuthService, Depends(get_auth_service)]
+CurriculumServiceDep = Annotated[CurriculumEntryService, Depends(get_curriculum_service)]
