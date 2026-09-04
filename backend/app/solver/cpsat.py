@@ -76,7 +76,17 @@ class CpSatTimetableSolver:
 
         _add_no_overlap_constraints(model, data, teaching_slots, occupies, place)
         _add_teacher_load_constraints(model, data, teaching_slots, occupies)
-        _fix_pinned_sessions(model, data, place, occupies)
+        unsatisfiable = _fix_pinned_sessions(model, data, place, occupies)
+        if unsatisfiable:
+            pinned = unsatisfiable[0]
+            return SolverResult(
+                status=SolverStatus.INFEASIBLE,
+                message=(
+                    f"Locked session for curriculum entry {pinned.entry_id} cannot be kept: "
+                    f"slot {pinned.slot_id} or room {pinned.room_id} is no longer a valid "
+                    "placement for it"
+                ),
+            )
         penalties = _add_same_subject_same_day_penalties(model, data, teaching_slots, occupies)
 
         if penalties:
@@ -85,6 +95,10 @@ class CpSatTimetableSolver:
         solver = cp_model.CpSolver()
         solver.parameters.max_time_in_seconds = options.time_limit_seconds
         solver.parameters.random_seed = options.random_seed
+        # One worker keeps runs reproducible: parallel workers race, so the same
+        # input can otherwise yield a different (equally valid) timetable, which
+        # is confusing for users and makes tests flaky.
+        solver.parameters.num_workers = options.num_workers
         status = solver.solve(model)
 
         if status not in (cp_model.OPTIMAL, cp_model.FEASIBLE):
@@ -166,15 +180,27 @@ def _fix_pinned_sessions(
     data: SolverInput,
     place: dict[tuple[int, int, int], cp_model.IntVar],
     occupies: dict[tuple[int, int], cp_model.IntVar],
-) -> None:
-    """Locked sessions edited by a human must survive a re-run."""
+) -> list[Assignment]:
+    """Locked sessions edited by a human must survive a re-run.
+
+    Returns the pins that cannot be expressed in the model at all -- the slot
+    became a break, or the room no longer suits the subject. Silently dropping
+    one of those would produce an "optimal" timetable that contradicts a session
+    the user pinned on purpose, so the caller reports infeasibility instead.
+    """
+    unsatisfiable: list[Assignment] = []
     for pinned in data.fixed:
         if pinned.room_id is not None:
             key = (pinned.entry_id, pinned.slot_id, pinned.room_id)
             if key in place:
                 model.add(place[key] == 1)
+            else:
+                unsatisfiable.append(pinned)
         elif (pinned.entry_id, pinned.slot_id) in occupies:
             model.add(occupies[(pinned.entry_id, pinned.slot_id)] == 1)
+        else:
+            unsatisfiable.append(pinned)
+    return unsatisfiable
 
 
 def _add_same_subject_same_day_penalties(

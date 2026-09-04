@@ -74,6 +74,9 @@ class SolverInput:
 class SolverOptions:
     time_limit_seconds: float = 30.0
     random_seed: int = 0
+    # Search workers. Keep at 1 for reproducible results; raise it only if a
+    # large school makes solving too slow.
+    num_workers: int = 1
     # Penalty for placing the same subject twice in a day for the same group.
     same_subject_same_day_penalty: int = 10
 

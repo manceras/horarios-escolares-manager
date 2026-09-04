@@ -191,3 +191,50 @@ def test_find_conflicts_detects_invalid_timetables(
     conflicts = find_conflicts(small_school(), bad_assignments)
 
     assert expected_code in {conflict.code for conflict in conflicts}
+
+
+def test_reports_infeasible_when_a_locked_session_can_no_longer_be_placed() -> None:
+    """A pin the model cannot express must fail loudly, not be dropped silently.
+
+    This happens when school data changes under an existing lock: the slot is
+    turned into a break, or the room stops matching the subject. Ignoring the pin
+    would return an "optimal" timetable that contradicts what a human pinned.
+    """
+    day_slots = (
+        SlotRef(id=1, day_of_week=0, period_index=0),
+        SlotRef(id=2, day_of_week=0, period_index=1, is_break=True),
+        SlotRef(id=3, day_of_week=1, period_index=0),
+    )
+    data = SolverInput(
+        slots=day_slots,
+        rooms=(RoomRef(id=1, room_type="classroom"),),
+        teachers=(TeacherRef(id=1, max_periods_per_week=25),),
+        entries=(
+            EntryRef(
+                id=10,
+                class_group_id=100,
+                subject_id=1,
+                teacher_id=1,
+                periods_per_week=1,
+                home_room_id=1,
+            ),
+        ),
+        # Slot 2 became a break after the session was locked into it.
+        fixed=(Assignment(entry_id=10, slot_id=2, room_id=1),),
+    )
+
+    result = CpSatTimetableSolver().solve(data, OPTIONS)
+
+    assert result.status is SolverStatus.INFEASIBLE
+    assert not result.assignments
+    assert "10" in result.message
+
+
+def test_the_same_input_always_produces_the_same_timetable() -> None:
+    data = small_school()
+    solver = CpSatTimetableSolver()
+
+    first = solver.solve(data, OPTIONS)
+    second = solver.solve(data, OPTIONS)
+
+    assert set(first.assignments) == set(second.assignments)
