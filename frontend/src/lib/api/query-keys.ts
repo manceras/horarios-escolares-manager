@@ -20,15 +20,19 @@ export const queryKeys = {
     all: ["class-groups"] as const,
     detail: (id: number) => ["class-groups", id] as const,
   },
-  curriculumEntries: {
-    all: ["curriculum-entries"] as const,
-    workload: ["curriculum-entries", "workload"] as const,
-  },
   timeSlots: {
     all: ["time-slots"] as const,
     detail: (id: number) => ["time-slots", id] as const,
   },
   teacherUnavailabilities: {
     byTeacher: (teacherId: number) => ["teacher-unavailabilities", teacherId] as const,
+  },
+  curriculumEntries: {
+    all: ["curriculum-entries"] as const,
+    workload: ["curriculum-entries", "workload"] as const,
+  },
+  schedules: {
+    all: ["schedules"] as const,
+    detail: (id: number) => ["schedules", id] as const,
   },
 } as const;

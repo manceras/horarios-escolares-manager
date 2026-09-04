@@ -1,0 +1,53 @@
+/*
+ * Print styling for the schedule-print feature. Screen layout is Tailwind
+ * utility classes on the components themselves; this file only holds rules
+ * that only make sense on paper, where `print:` utility variants either
+ * cannot express the rule (page size/margins, forced borders regardless of
+ * theme) or are safer spelled out explicitly and tested against a real
+ * print preview.
+ */
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+  }
+
+  /* App chrome (header/nav) and every on-screen-only control use Tailwind's
+   * built-in `print:hidden` utility variant -- no extra rule needed here. */
+
+  /* One sheet per page when printing several (the "all" view). */
+  .schedule-print-sheet {
+    break-inside: avoid;
+  }
+
+  .schedule-print-break-after {
+    break-after: page;
+    page-break-after: always;
+  }
+
+  /* Black on white with visible borders, regardless of the app's theme tokens. */
+  .schedule-print-table {
+    color: #000 !important;
+    border-color: #000 !important;
+  }
+
+  .schedule-print-table th,
+  .schedule-print-table td {
+    border-color: #000 !important;
+    color: #000 !important;
+  }
+
+  /* Backgrounds are stripped by default when printing; force the break-row
+   * shading back on so a break period still reads as visually distinct. */
+  .schedule-print-break-row {
+    background: #e5e5e5 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

@@ -8,6 +8,7 @@ import { LoginPage } from "@/routes/LoginPage";
 import { RoomsPage } from "@/routes/RoomsPage";
 import { SubjectsPage } from "@/routes/SubjectsPage";
 import { TeacherAvailabilityPage } from "@/routes/TeacherAvailabilityPage";
+import { SchedulePrintPage } from "@/routes/SchedulePrintPage";
 import { TeachersPage } from "@/routes/TeachersPage";
 import { TimeSlotsPage } from "@/routes/TimeSlotsPage";
 
@@ -30,6 +31,7 @@ export const router = createBrowserRouter([
       { path: "rooms", element: <RoomsPage /> },
       { path: "time-slots", element: <TimeSlotsPage /> },
       { path: "curriculum", element: <CurriculumPage /> },
+      { path: "schedules/print", element: <SchedulePrintPage /> },
     ],
   },
 ]);

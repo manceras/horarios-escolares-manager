@@ -31,7 +31,8 @@
     "logout": "Cerrar sesión",
     "curriculum": "Carga lectiva",
     "timeSlots": "Franjas horarias",
-    "availability": "Disponibilidad"
+    "availability": "Disponibilidad",
+    "print": "Imprimir horarios"
   },
   "login": {
     "title": "Iniciar sesión",
@@ -211,5 +212,31 @@
     "selectTeacherPlaceholder": "Selecciona un profesor o profesora",
     "gridTitle": "Disponibilidad semanal",
     "saveSuccess": "Disponibilidad guardada."
+  },
+  "print": {
+    "title": "Horarios imprimibles",
+    "scheduleLabel": "Horario",
+    "scheduleStatus": {
+      "draft": "borrador",
+      "published": "publicado",
+      "archived": "archivado"
+    },
+    "viewTypeLabel": "Ver por",
+    "viewType": {
+      "teacher": "Profesorado",
+      "classGroup": "Grupo",
+      "room": "Aula"
+    },
+    "entityLabel": "Selección",
+    "all": "Todos",
+    "printButton": "Imprimir",
+    "exportCsv": "Exportar CSV",
+    "break": "Recreo",
+    "noSchedule": "Todavía no hay ningún horario generado.",
+    "noSessions": "No hay sesiones para esta selección.",
+    "sheetHeading": "{{schedule}} · {{scope}}: {{name}}",
+    "columns": {
+      "time": "Hora"
+    }
   }
 }
