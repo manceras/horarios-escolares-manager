@@ -17,6 +17,7 @@ from app.services.auth_service import AuthService
 from app.services.class_group_service import ClassGroupService
 from app.services.curriculum_service import CurriculumEntryService
 from app.services.room_service import RoomService
+from app.services.schedule_service import ScheduleService
 from app.services.subject_service import SubjectService
 from app.services.teacher_service import TeacherService
 from app.services.teacher_unavailability_service import TeacherUnavailabilityService
@@ -105,6 +106,10 @@ def get_curriculum_service(session: SessionDep) -> CurriculumEntryService:
     return CurriculumEntryService(session)
 
 
+def get_schedule_service(session: SessionDep) -> ScheduleService:
+    return ScheduleService(session)
+
+
 TeacherServiceDep = Annotated[TeacherService, Depends(get_teacher_service)]
 AuthServiceDep = Annotated[AuthService, Depends(get_auth_service)]
 RoomServiceDep = Annotated[RoomService, Depends(get_room_service)]
@@ -115,3 +120,4 @@ TeacherUnavailabilityServiceDep = Annotated[
     TeacherUnavailabilityService, Depends(get_teacher_unavailability_service)
 ]
 CurriculumServiceDep = Annotated[CurriculumEntryService, Depends(get_curriculum_service)]
+ScheduleServiceDep = Annotated[ScheduleService, Depends(get_schedule_service)]

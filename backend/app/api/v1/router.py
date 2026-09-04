@@ -7,6 +7,7 @@ from app.api.v1 import (
     class_groups,
     curriculum_entries,
     rooms,
+    schedules,
     subjects,
     teacher_unavailabilities,
     teachers,
@@ -22,3 +23,4 @@ api_router.include_router(subjects.router)
 api_router.include_router(rooms.router)
 api_router.include_router(time_slots.router)
 api_router.include_router(curriculum_entries.router)
+api_router.include_router(schedules.router)
