@@ -14,6 +14,8 @@ from app.models.enums import UserRole
 from app.models.user import User
 from app.repositories.user_repository import UserRepository
 from app.services.auth_service import AuthService
+from app.services.room_service import RoomService
+from app.services.subject_service import SubjectService
 from app.services.teacher_service import TeacherService
 
 SessionDep = Annotated[Session, Depends(get_session)]
@@ -75,5 +77,15 @@ def get_auth_service(session: SessionDep) -> AuthService:
     return AuthService(session)
 
 
+def get_room_service(session: SessionDep) -> RoomService:
+    return RoomService(session)
+
+
+def get_subject_service(session: SessionDep) -> SubjectService:
+    return SubjectService(session)
+
+
 TeacherServiceDep = Annotated[TeacherService, Depends(get_teacher_service)]
 AuthServiceDep = Annotated[AuthService, Depends(get_auth_service)]
+RoomServiceDep = Annotated[RoomService, Depends(get_room_service)]
+SubjectServiceDep = Annotated[SubjectService, Depends(get_subject_service)]
