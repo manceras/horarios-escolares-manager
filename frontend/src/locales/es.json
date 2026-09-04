@@ -3,8 +3,16 @@
     "title": "Horarios",
     "loading": "Cargando…",
     "save": "Guardar",
+    "saving": "Guardando…",
     "cancel": "Cancelar",
-    "retry": "Reintentar"
+    "retry": "Reintentar",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "actions": {
+    "title": "Acciones",
+    "edit": "Editar",
+    "delete": "Eliminar"
   },
   "nav": {
     "teachers": "Profesorado",
@@ -22,17 +30,31 @@
     "title": "Profesorado",
     "empty": "Todavía no hay profesorado registrado.",
     "createButton": "Añadir profesor/a",
+    "createTitle": "Añadir profesor/a",
+    "editTitle": "Editar profesor/a",
+    "deleteTitle": "Eliminar profesor/a",
+    "deleteConfirm": "¿Seguro que quieres eliminar a {{name}}? Esta acción no se puede deshacer.",
+    "createSuccess": "Profesor/a añadido/a.",
+    "updateSuccess": "Profesor/a actualizado/a.",
+    "deleteSuccess": "Profesor/a eliminado/a.",
     "name": "Nombre",
+    "firstName": "Nombre",
+    "lastName": "Apellidos",
     "email": "Correo",
     "specialist": "Especialista",
     "maxPeriods": "Máx. sesiones/semana",
-    "yes": "Sí",
-    "no": "No"
+    "active": "Activo/a",
+    "validation": {
+      "firstNameRequired": "El nombre es obligatorio.",
+      "lastNameRequired": "Los apellidos son obligatorios.",
+      "emailInvalid": "Introduce un correo válido.",
+      "maxPeriodsInvalid": "Introduce un número de sesiones mayor que cero."
+    }
   },
   "errors": {
     "unknown": "Ha ocurrido un error inesperado.",
     "not_found": "No se ha encontrado el recurso.",
-    "conflict": "Ya existe un registro con esos datos.",
+    "conflict": "Ya existe un registro con esos datos, o el recurso está en uso y no se puede eliminar.",
     "validation_error": "Los datos introducidos no son válidos.",
     "permission_denied": "No tienes permiso para hacer esto.",
     "authentication_error": "Usuario o contraseña incorrectos."
