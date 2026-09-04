@@ -32,3 +32,6 @@ openapi.json
 
 # Agent worktrees
 .claude/worktrees/
+
+# TypeScript incremental build info
+*.tsbuildinfo
