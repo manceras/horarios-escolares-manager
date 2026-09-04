@@ -17,6 +17,8 @@
   "nav": {
     "teachers": "Profesorado",
     "groups": "Grupos",
+    "rooms": "Aulas",
+    "subjects": "Asignaturas",
     "schedule": "Horario",
     "logout": "Cerrar sesión"
   },
@@ -49,6 +51,52 @@
       "lastNameRequired": "Los apellidos son obligatorios.",
       "emailInvalid": "Introduce un correo válido.",
       "maxPeriodsInvalid": "Introduce un número de sesiones mayor que cero."
+    }
+  },
+  "rooms": {
+    "title": "Aulas",
+    "empty": "Todavía no hay aulas registradas.",
+    "createButton": "Añadir aula",
+    "createTitle": "Añadir aula",
+    "editTitle": "Editar aula",
+    "deleteTitle": "Eliminar aula",
+    "deleteConfirm": "¿Seguro que quieres eliminar el aula {{name}}? Esta acción no se puede deshacer.",
+    "createSuccess": "Aula añadida.",
+    "updateSuccess": "Aula actualizada.",
+    "deleteSuccess": "Aula eliminada.",
+    "name": "Nombre",
+    "type": "Tipo de aula",
+    "capacity": "Capacidad",
+    "types": {
+      "classroom": "Aula ordinaria",
+      "gym": "Gimnasio",
+      "music": "Aula de música",
+      "computer_lab": "Aula de informática",
+      "other": "Otro"
+    },
+    "validation": {
+      "nameRequired": "El nombre es obligatorio.",
+      "capacityInvalid": "Introduce una capacidad mayor que cero."
+    }
+  },
+  "subjects": {
+    "title": "Asignaturas",
+    "empty": "Todavía no hay asignaturas registradas.",
+    "createButton": "Añadir asignatura",
+    "createTitle": "Añadir asignatura",
+    "editTitle": "Editar asignatura",
+    "deleteTitle": "Eliminar asignatura",
+    "deleteConfirm": "¿Seguro que quieres eliminar la asignatura {{name}}? Esta acción no se puede deshacer.",
+    "createSuccess": "Asignatura añadida.",
+    "updateSuccess": "Asignatura actualizada.",
+    "deleteSuccess": "Asignatura eliminada.",
+    "code": "Código",
+    "name": "Nombre",
+    "requiredRoomType": "Aula requerida",
+    "noRequiredRoomType": "No requiere aula especial",
+    "validation": {
+      "codeRequired": "El código es obligatorio.",
+      "nameRequired": "El nombre es obligatorio."
     }
   },
   "errors": {
