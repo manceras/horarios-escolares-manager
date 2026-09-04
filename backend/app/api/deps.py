@@ -15,6 +15,7 @@ from app.models.user import User
 from app.repositories.user_repository import UserRepository
 from app.services.auth_service import AuthService
 from app.services.class_group_service import ClassGroupService
+from app.services.curriculum_service import CurriculumEntryService
 from app.services.room_service import RoomService
 from app.services.subject_service import SubjectService
 from app.services.teacher_service import TeacherService
@@ -100,6 +101,10 @@ def get_teacher_unavailability_service(session: SessionDep) -> TeacherUnavailabi
     return TeacherUnavailabilityService(session)
 
 
+def get_curriculum_service(session: SessionDep) -> CurriculumEntryService:
+    return CurriculumEntryService(session)
+
+
 TeacherServiceDep = Annotated[TeacherService, Depends(get_teacher_service)]
 AuthServiceDep = Annotated[AuthService, Depends(get_auth_service)]
 RoomServiceDep = Annotated[RoomService, Depends(get_room_service)]
@@ -109,3 +114,4 @@ TimeSlotServiceDep = Annotated[TimeSlotService, Depends(get_time_slot_service)]
 TeacherUnavailabilityServiceDep = Annotated[
     TeacherUnavailabilityService, Depends(get_teacher_unavailability_service)
 ]
+CurriculumServiceDep = Annotated[CurriculumEntryService, Depends(get_curriculum_service)]

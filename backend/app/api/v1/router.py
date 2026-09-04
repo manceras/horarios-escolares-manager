@@ -5,6 +5,7 @@ from fastapi import APIRouter
 from app.api.v1 import (
     auth,
     class_groups,
+    curriculum_entries,
     rooms,
     subjects,
     teacher_unavailabilities,
@@ -20,3 +21,4 @@ api_router.include_router(class_groups.router)
 api_router.include_router(subjects.router)
 api_router.include_router(rooms.router)
 api_router.include_router(time_slots.router)
+api_router.include_router(curriculum_entries.router)
