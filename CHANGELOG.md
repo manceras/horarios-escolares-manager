@@ -29,6 +29,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   `EntityDialog`, `ConfirmDialog`, a typed form helper and app-level toasts that
   translate backend error codes.
 - Teachers screen completed with create, edit and delete.
+- Schedules screens: a list to create, publish and delete timetable versions,
+  and a weekly grid — time slots down the side, one column per class group,
+  breaks marked and never editable — with solver generation, its outcome and
+  infeasibility message, a translated conflict list that highlights the cell it
+  refers to, session locking, and manual moves by click-to-place that are undone
+  on screen when the server refuses them.
 
 ### Fixed
 

@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { clearToken } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
 
-const NAV_ITEMS = [{ to: "/teachers", labelKey: "nav.teachers" }] as const;
+const NAV_ITEMS = [
+  { to: "/teachers", labelKey: "nav.teachers" },
+  { to: "/schedules", labelKey: "nav.schedules" },
+] as const;
 
 export function AppLayout() {
   const { t } = useTranslation();

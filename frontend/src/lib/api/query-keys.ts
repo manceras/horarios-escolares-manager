@@ -8,4 +8,15 @@ export const queryKeys = {
     all: ["teachers"] as const,
     detail: (id: number) => ["teachers", id] as const,
   },
+  classGroups: {
+    all: ["class-groups"] as const,
+  },
+  timeSlots: {
+    all: ["time-slots"] as const,
+  },
+  schedules: {
+    all: ["schedules"] as const,
+    detail: (id: number) => ["schedules", id] as const,
+    conflicts: (id: number) => ["schedules", id, "conflicts"] as const,
+  },
 } as const;
