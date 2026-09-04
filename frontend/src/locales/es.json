@@ -7,7 +7,14 @@
     "cancel": "Cancelar",
     "retry": "Reintentar",
     "yes": "Sí",
-    "no": "No"
+    "no": "No",
+    "weekdays": {
+      "monday": "Lunes",
+      "tuesday": "Martes",
+      "wednesday": "Miércoles",
+      "thursday": "Jueves",
+      "friday": "Viernes"
+    }
   },
   "actions": {
     "title": "Acciones",
@@ -18,6 +25,7 @@
     "teachers": "Profesorado",
     "groups": "Grupos",
     "schedule": "Horario",
+    "print": "Imprimir horarios",
     "logout": "Cerrar sesión"
   },
   "login": {
@@ -49,6 +57,32 @@
       "lastNameRequired": "Los apellidos son obligatorios.",
       "emailInvalid": "Introduce un correo válido.",
       "maxPeriodsInvalid": "Introduce un número de sesiones mayor que cero."
+    }
+  },
+  "print": {
+    "title": "Horarios imprimibles",
+    "scheduleLabel": "Horario",
+    "scheduleStatus": {
+      "draft": "borrador",
+      "published": "publicado",
+      "archived": "archivado"
+    },
+    "viewTypeLabel": "Ver por",
+    "viewType": {
+      "teacher": "Profesorado",
+      "classGroup": "Grupo",
+      "room": "Aula"
+    },
+    "entityLabel": "Selección",
+    "all": "Todos",
+    "printButton": "Imprimir",
+    "exportCsv": "Exportar CSV",
+    "break": "Recreo",
+    "noSchedule": "Todavía no hay ningún horario generado.",
+    "noSessions": "No hay sesiones para esta selección.",
+    "sheetHeading": "{{schedule}} · {{scope}}: {{name}}",
+    "columns": {
+      "time": "Hora"
     }
   },
   "errors": {

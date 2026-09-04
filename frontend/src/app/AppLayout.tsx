@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 import { clearToken } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
 
-const NAV_ITEMS = [{ to: "/teachers", labelKey: "nav.teachers" }] as const;
+const NAV_ITEMS = [
+  { to: "/teachers", labelKey: "nav.teachers" },
+  { to: "/schedules/print", labelKey: "nav.print" },
+] as const;
 
 export function AppLayout() {
   const { t } = useTranslation();
@@ -13,7 +16,7 @@ export function AppLayout() {
 
   return (
     <div className="min-h-screen">
-      <header className="border-b border-border">
+      <header className="border-b border-border print:hidden">
         <div className="mx-auto flex max-w-5xl items-center gap-6 px-4 py-3">
           <span className="font-semibold">{t("app.title")}</span>
           <nav className="flex gap-4 text-sm">
@@ -42,7 +45,7 @@ export function AppLayout() {
           </Button>
         </div>
       </header>
-      <main className="mx-auto max-w-5xl px-4 py-6">
+      <main className="mx-auto max-w-5xl px-4 py-6 print:max-w-none print:p-0">
         <Outlet />
       </main>
     </div>
