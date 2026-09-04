@@ -3,6 +3,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from sqlalchemy.exc import IntegrityError
 
 from app.api.v1.router import api_router
 from app.core.config import get_settings
@@ -31,6 +32,23 @@ def create_app() -> FastAPI:
         return JSONResponse(
             status_code=exc.status_code,
             content={"detail": exc.message, "code": exc.code},
+        )
+
+    @app.exception_handler(IntegrityError)
+    async def handle_integrity_error(_request: Request, _exc: IntegrityError) -> JSONResponse:
+        """A constraint the database refused is the user's conflict, not a crash.
+
+        Services are expected to check references themselves and raise a
+        ``ConflictError`` with a useful message. This is the net for the one that
+        was forgotten: the client still gets a 409 rather than a 500, and the
+        database error itself is never echoed back.
+        """
+        return JSONResponse(
+            status_code=409,
+            content={
+                "detail": "The request conflicts with data that already exists",
+                "code": "conflict",
+            },
         )
 
     @app.get("/health", tags=["meta"])

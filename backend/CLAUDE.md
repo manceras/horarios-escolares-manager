@@ -37,6 +37,13 @@ app/core/             config, db session, security, errors, settings
 - **Cross-aggregate checks live in the service.** Refusing to delete a room that
   a class group still uses means querying another aggregate's table. Do it in the
   service, not by adding foreign-entity methods to the entity's own repository.
+- **Every delete needs a referential guard.** SQLite enforces foreign keys only
+  because `app/core/db.py` turns the pragma on per connection; before that, a
+  delete happily orphaned rows and the next read crashed. When you add an entity
+  that points at another one, add the guard to the *pointed-at* entity's
+  `delete()` and a test for it. `app/main.py` maps an `IntegrityError` to a 409
+  as a net, but a net is not a message: the service check is what tells the user
+  what is actually in the way.
 - **Order routes before path parameters.** `GET /curriculum-entries/workload`
   must be declared before `GET /curriculum-entries/{entry_id}`, or the int path
   parameter swallows it.

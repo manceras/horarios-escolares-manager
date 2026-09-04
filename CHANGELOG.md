@@ -53,6 +53,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- Deleting a teacher who still taught something left orphaned curriculum entries
+  behind and made the curriculum endpoints fail with a 500. Teacher deletion now
+  refuses with a 409 naming what still references them.
+- SQLite now enforces foreign keys. Until this release the schema's `ForeignKey`
+  and `ON DELETE CASCADE` clauses did nothing at runtime, so any unguarded delete
+  could leave dangling references. A constraint the database refuses is reported
+  as a 409 instead of surfacing as a server error.
+
 - The solver no longer discards a locked session it cannot place. When school
   data changes under a pin — the slot becomes a break, the room stops matching
   the subject — it reports `infeasible` and names the entry instead of returning
