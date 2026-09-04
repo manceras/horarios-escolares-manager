@@ -18,9 +18,14 @@ restricciones, para después revisarlo, ajustarlo e imprimirlo.
 - [x] Motor de restricciones (OR-Tools CP-SAT) con las restricciones duras de abajo, con tests
 - [x] Validador independiente de horarios (`find_conflicts`) para ediciones manuales
 - [x] Autenticación JWT con roles `admin` / `head_of_studies` / `teacher`
-- [x] API y pantalla de profesorado, como slice vertical de referencia
-- [ ] CRUD de grupos, asignaturas, espacios, franjas horarias y carga lectiva
-- [ ] Endpoints para lanzar el solver y guardar el horario generado
+- [x] API para profesorado, grupos, asignaturas, espacios, franjas,
+      disponibilidad y carga lectiva, con las reglas de negocio en los servicios
+- [x] Endpoints para lanzar el solver, guardar y publicar un horario, y validar
+      las ediciones manuales contra las restricciones duras
+- [x] Informe de carga que avisa de que el horario es imposible antes de resolver
+- [x] Pantalla de profesorado, con las piezas compartidas de tabla, diálogo y
+      formulario que reutilizarán el resto de pantallas
+- [ ] Pantallas para el resto de entidades
 - [ ] Rejilla semanal con arrastrar y soltar y avisos de conflicto en vivo
 - [ ] Vistas imprimibles y exportables por profesor, grupo y aula
 

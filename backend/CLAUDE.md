@@ -29,6 +29,18 @@ app/core/             config, db session, security, errors, settings
 - New model → import it in `app/models/__init__.py` → create a migration.
 - Any change to a route or a schema → `make gen-api` from the repo root.
 
+## Traps found the hard way
+
+- **Enum columns come back as plain `str`.** `Schedule.status`, `Room.room_type`
+  and friends are stored through `String`, so SQLAlchemy returns `"draft"`, not
+  `ScheduleStatus.DRAFT`. Compare with `==`, never with `is`.
+- **Cross-aggregate checks live in the service.** Refusing to delete a room that
+  a class group still uses means querying another aggregate's table. Do it in the
+  service, not by adding foreign-entity methods to the entity's own repository.
+- **Order routes before path parameters.** `GET /curriculum-entries/workload`
+  must be declared before `GET /curriculum-entries/{entry_id}`, or the int path
+  parameter swallows it.
+
 ## Commands
 
 ```sh

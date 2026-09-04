@@ -17,3 +17,24 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Teachers REST endpoints and web page, as the reference vertical slice.
 - Generated frontend API client derived from the backend OpenAPI document.
 - Docker Compose deployment, pre-commit hooks and GitHub Actions CI.
+- CRUD endpoints for rooms, subjects, class groups, time slots, teacher
+  unavailability and curriculum entries, each with its business rules enforced
+  in the service layer.
+- Bulk replacement of a teacher's weekly availability in one transaction.
+- `GET /api/v1/curriculum-entries/workload`, a feasibility report telling a head
+  of studies that a timetable is impossible before the solver is run.
+- Timetable generation endpoints: create a draft, run the solver, inspect
+  conflicts, move or lock a session, publish and archive.
+- Shared frontend building blocks for data-entry screens: `DataTable`,
+  `EntityDialog`, `ConfirmDialog`, a typed form helper and app-level toasts that
+  translate backend error codes.
+- Teachers screen completed with create, edit and delete.
+
+### Fixed
+
+- The solver no longer discards a locked session it cannot place. When school
+  data changes under a pin — the slot becomes a break, the room stops matching
+  the subject — it reports `infeasible` and names the entry instead of returning
+  an "optimal" timetable that contradicts the lock.
+- Solver runs are reproducible: the same input now always produces the same
+  timetable.

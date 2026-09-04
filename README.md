@@ -21,9 +21,14 @@ review, adjust and print it.
 - [x] Constraint solver (OR-Tools CP-SAT) with the hard constraints below, tested
 - [x] Independent timetable validator (`find_conflicts`) for manual edits
 - [x] JWT authentication with `admin` / `head_of_studies` / `teacher` roles
-- [x] REST API and web UI for teachers, as the reference vertical slice
-- [ ] CRUD for groups, subjects, rooms, time slots and curriculum entries
-- [ ] Endpoints to run the solver and persist a generated schedule
+- [x] REST API for teachers, groups, subjects, rooms, time slots, availability
+      and curriculum entries, with the business rules enforced in services
+- [x] Endpoints to run the solver, persist a schedule, publish it, and validate
+      manual edits against the hard constraints
+- [x] Workload report that flags an impossible timetable before solving
+- [x] Web UI for teachers, with the shared table, dialog and form building blocks
+      every other screen will reuse
+- [ ] Web UI for the remaining entities
 - [ ] Weekly grid UI with drag-and-drop and live conflict feedback
 - [ ] Printable and exportable views per teacher, group and room
 
