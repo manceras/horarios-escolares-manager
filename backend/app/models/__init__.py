@@ -2,7 +2,7 @@
 
 from app.models.base import Base
 from app.models.curriculum import CurriculumEntry
-from app.models.enums import RoomType, ScheduleStatus, UserRole
+from app.models.enums import RoomType, ScheduleStatus
 from app.models.schedule import Schedule, ScheduledSession
 from app.models.school import (
     ClassGroup,
@@ -12,7 +12,6 @@ from app.models.school import (
     TeacherUnavailability,
     TimeSlot,
 )
-from app.models.user import User
 
 __all__ = [
     "Base",
@@ -27,6 +26,4 @@ __all__ = [
     "Teacher",
     "TeacherUnavailability",
     "TimeSlot",
-    "User",
-    "UserRole",
 ]

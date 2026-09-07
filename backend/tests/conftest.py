@@ -3,10 +3,9 @@
 from collections.abc import Iterator
 
 import pytest
-from app.api.deps import get_current_user
 from app.core.db import get_session
 from app.main import create_app
-from app.models import Base, User, UserRole
+from app.models import Base
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, sessionmaker
@@ -26,23 +25,14 @@ def session() -> Iterator[Session]:
 
 
 @pytest.fixture
-def admin_user(session: Session) -> User:
-    user = User(email="admin@example.org", hashed_password="x", role=UserRole.ADMIN)
-    session.add(user)
-    session.commit()
-    return user
+def client(session: Session) -> Iterator[TestClient]:
+    """An API client wired to the test session.
 
-
-@pytest.fixture
-def client(session: Session, admin_user: User) -> Iterator[TestClient]:
-    """An API client authenticated as an admin.
-
-    Authentication itself is tested in ``test_auth.py``; every other test
-    overrides it so it can focus on its own behaviour.
+    The application has no authentication: it runs on the user's own machine,
+    bound to the loopback interface. See ``docs/adr/0006-desktop-application.md``.
     """
     app = create_app()
     app.dependency_overrides[get_session] = lambda: session
-    app.dependency_overrides[get_current_user] = lambda: admin_user
     with TestClient(app) as test_client:
         yield test_client
     app.dependency_overrides.clear()

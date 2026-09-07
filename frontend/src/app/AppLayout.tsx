@@ -1,8 +1,6 @@
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { Button } from "@/components/ui/button";
-import { clearToken } from "@/lib/api/client";
 import { cn } from "@/lib/utils";
 
 // Ordered the way a school sets its timetable up: staff, then structure, then
@@ -21,7 +19,6 @@ const NAV_ITEMS = [
 
 export function AppLayout() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
 
   return (
     <div className="min-h-screen">
@@ -41,17 +38,6 @@ export function AppLayout() {
               </NavLink>
             ))}
           </nav>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="ml-auto"
-            onClick={() => {
-              clearToken();
-              void navigate("/login");
-            }}
-          >
-            {t("nav.logout")}
-          </Button>
         </div>
       </header>
       <main className="mx-auto max-w-5xl px-4 py-6 print:max-w-none print:p-0">

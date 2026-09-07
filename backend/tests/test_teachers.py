@@ -1,6 +1,6 @@
 """Reference API test: happy path, business rule, failure case."""
 
-from app.models import ClassGroup, CurriculumEntry, Subject, Teacher, User, UserRole
+from app.models import ClassGroup, CurriculumEntry, Subject, Teacher
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
@@ -89,25 +89,6 @@ def test_rejects_deleting_a_teacher_who_tutors_a_group(
 ) -> None:
     teacher = _teacher(session)
     session.add(ClassGroup(name="3A", grade=3, tutor_id=teacher.id))
-    session.commit()
-
-    response = client.delete(f"/api/v1/teachers/{teacher.id}")
-
-    assert response.status_code == 409
-
-
-def test_rejects_deleting_a_teacher_with_a_user_account(
-    client: TestClient, session: Session
-) -> None:
-    teacher = _teacher(session)
-    session.add(
-        User(
-            email="linked@example.org",
-            hashed_password="x",
-            role=UserRole.TEACHER,
-            teacher_id=teacher.id,
-        )
-    )
     session.commit()
 
     response = client.delete(f"/api/v1/teachers/{teacher.id}")

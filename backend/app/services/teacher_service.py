@@ -12,7 +12,6 @@ from sqlalchemy.orm import Session
 from app.core.errors import ConflictError, NotFoundError
 from app.models.curriculum import CurriculumEntry
 from app.models.school import ClassGroup, Teacher
-from app.models.user import User
 from app.repositories.teacher_repository import TeacherRepository
 from app.schemas.teacher import TeacherCreate, TeacherUpdate
 
@@ -70,12 +69,6 @@ class TeacherService:
         ).first()
         if is_tutor is not None:
             raise ConflictError(f"Teacher {teacher_id} is the tutor of a class group")
-
-        has_account = self.session.execute(
-            select(User.id).where(User.teacher_id == teacher_id)
-        ).first()
-        if has_account is not None:
-            raise ConflictError(f"Teacher {teacher_id} is linked to a user account")
 
         # Unavailability rows belong to the teacher and are cascaded away with them.
         self.teachers.delete(teacher)

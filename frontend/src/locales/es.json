@@ -28,18 +28,11 @@
     "rooms": "Aulas",
     "subjects": "Asignaturas",
     "schedule": "Horario",
-    "logout": "Cerrar sesión",
     "curriculum": "Carga lectiva",
     "timeSlots": "Franjas horarias",
     "availability": "Disponibilidad",
     "print": "Imprimir horarios",
     "schedules": "Horarios"
-  },
-  "login": {
-    "title": "Iniciar sesión",
-    "email": "Correo electrónico",
-    "password": "Contraseña",
-    "submit": "Entrar"
   },
   "teachers": {
     "title": "Profesorado",
@@ -116,9 +109,7 @@
     "unknown": "Ha ocurrido un error inesperado.",
     "not_found": "No se ha encontrado el recurso.",
     "conflict": "Ya existe un registro con esos datos, o el recurso está en uso y no se puede eliminar.",
-    "validation_error": "Los datos introducidos no son válidos.",
-    "permission_denied": "No tienes permiso para hacer esto.",
-    "authentication_error": "Usuario o contraseña incorrectos."
+    "validation_error": "Los datos introducidos no son válidos."
   },
   "curriculum": {
     "title": "Carga lectiva",

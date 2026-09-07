@@ -11,7 +11,6 @@ Idempotent: running it twice leaves the same data. Never run it against real dat
 from datetime import time
 
 from app.core.db import SessionLocal, engine
-from app.core.security import hash_password
 from app.models import (
     Base,
     ClassGroup,
@@ -22,8 +21,6 @@ from app.models import (
     Teacher,
     TeacherUnavailability,
     TimeSlot,
-    User,
-    UserRole,
 )
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
@@ -183,34 +180,9 @@ def seed(session: Session) -> None:
         if slot.day_of_week in (0, 4) and not slot.is_break
     )
 
-    session.add_all(
-        [
-            User(
-                email="admin@example.org",
-                hashed_password=hash_password("changeme"),
-                role=UserRole.ADMIN,
-            ),
-            User(
-                email="jefatura@example.org",
-                hashed_password=hash_password("changeme"),
-                role=UserRole.HEAD_OF_STUDIES,
-            ),
-            User(
-                email=tutors[0].email,
-                hashed_password=hash_password("changeme"),
-                role=UserRole.TEACHER,
-                teacher_id=tutors[0].id,
-            ),
-        ]
-    )
-    session.commit()
-
     print(
         f"Seeded {len(groups)} class groups, {len(tutors) + len(specialists)} teachers, "
         f"{len(subjects)} subjects and {len(groups) * len(SUBJECTS)} curriculum entries"
-    )
-    print(
-        "Users (password 'changeme'): admin@example.org, jefatura@example.org, " + tutors[0].email
     )
 
 

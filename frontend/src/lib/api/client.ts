@@ -2,36 +2,12 @@ import createClient from "openapi-fetch";
 
 import type { paths } from "./schema";
 
-const TOKEN_STORAGE_KEY = "horarios.accessToken";
-
-export function getStoredToken(): string | null {
-  return localStorage.getItem(TOKEN_STORAGE_KEY);
-}
-
-export function storeToken(token: string): void {
-  localStorage.setItem(TOKEN_STORAGE_KEY, token);
-}
-
-export function clearToken(): void {
-  localStorage.removeItem(TOKEN_STORAGE_KEY);
-}
-
 /**
  * Typed API client. Types come from the backend OpenAPI document, so a route
  * change breaks the build instead of breaking at runtime. Run `make gen-api`
  * after touching the API.
  */
 export const api = createClient<paths>({ baseUrl: "/" });
-
-api.use({
-  onRequest({ request }) {
-    const token = getStoredToken();
-    if (token) {
-      request.headers.set("Authorization", `Bearer ${token}`);
-    }
-    return request;
-  },
-});
 
 /** Shape of every error response produced by the backend. */
 export interface ApiError {

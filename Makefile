@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: help setup dev dev-api dev-web check check-api check-web fix gen-api migrate migration seed create-user build clean
+.PHONY: help setup dev dev-api dev-web check check-api check-web fix gen-api migrate migration seed build clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
@@ -45,9 +45,6 @@ migrate: ## Apply pending database migrations
 migration: ## Create a migration: make migration name=add_rooms
 	@test -n "$(name)" || (echo "Usage: make migration name=add_rooms" && exit 1)
 	cd backend && uv run alembic revision --autogenerate -m "$(name)"
-
-create-user: ## Create a user account, prompting for the password (use this in production)
-	cd backend && uv run python scripts/create_user.py
 
 seed: ## Load development data
 	cd backend && uv run python scripts/seed.py

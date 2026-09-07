@@ -3,21 +3,9 @@
 from datetime import time
 
 import pytest
-from app.api.deps import get_current_user
-from app.core.db import get_session
-from app.main import create_app
-from app.models.enums import UserRole
 from app.models.school import Teacher, TimeSlot
-from app.models.user import User
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
-
-
-def _client_as(session: Session, user: User) -> TestClient:
-    app = create_app()
-    app.dependency_overrides[get_session] = lambda: session
-    app.dependency_overrides[get_current_user] = lambda: user
-    return TestClient(app)
 
 
 @pytest.fixture
@@ -120,48 +108,3 @@ def test_replaces_the_full_set_for_a_teacher(
         "/api/v1/teacher-unavailabilities", params={"teacher_id": teacher_a.id}
     ).json()
     assert [row["time_slot_id"] for row in listed] == [slots[1].id]
-
-
-def test_a_teacher_user_may_manage_their_own_unavailability(
-    session: Session, teacher_a: Teacher, slots: list[TimeSlot]
-) -> None:
-    user = User(
-        email="ana.user@example.org",
-        hashed_password="x",
-        role=UserRole.TEACHER,
-        teacher_id=teacher_a.id,
-    )
-    session.add(user)
-    session.commit()
-    teacher_client = _client_as(session, user)
-
-    response = teacher_client.post(
-        "/api/v1/teacher-unavailabilities",
-        json={"teacher_id": teacher_a.id, "time_slot_id": slots[0].id},
-    )
-    assert response.status_code == 201
-    row_id = response.json()["id"]
-
-    delete_response = teacher_client.delete(f"/api/v1/teacher-unavailabilities/{row_id}")
-    assert delete_response.status_code == 204
-
-
-def test_a_teacher_user_cannot_manage_another_teachers_unavailability(
-    session: Session, teacher_a: Teacher, teacher_b: Teacher, slots: list[TimeSlot]
-) -> None:
-    user = User(
-        email="ana.user@example.org",
-        hashed_password="x",
-        role=UserRole.TEACHER,
-        teacher_id=teacher_a.id,
-    )
-    session.add(user)
-    session.commit()
-    teacher_client = _client_as(session, user)
-
-    response = teacher_client.post(
-        "/api/v1/teacher-unavailabilities",
-        json={"teacher_id": teacher_b.id, "time_slot_id": slots[0].id},
-    )
-    assert response.status_code == 403
-    assert response.json()["code"] == "permission_denied"

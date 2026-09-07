@@ -15,9 +15,3 @@ class ScheduleStatus(StrEnum):
     DRAFT = "draft"
     PUBLISHED = "published"
     ARCHIVED = "archived"
-
-
-class UserRole(StrEnum):
-    ADMIN = "admin"
-    HEAD_OF_STUDIES = "head_of_studies"
-    TEACHER = "teacher"

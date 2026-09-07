@@ -9,8 +9,6 @@ from typing import Any
 from app.schemas.common import ErrorResponse
 
 ERROR_RESPONSES: dict[int | str, dict[str, Any]] = {
-    401: {"model": ErrorResponse, "description": "Missing or invalid credentials"},
-    403: {"model": ErrorResponse, "description": "The user may not access this resource"},
     404: {"model": ErrorResponse, "description": "The resource does not exist"},
     409: {"model": ErrorResponse, "description": "The request conflicts with the current state"},
     422: {"model": ErrorResponse, "description": "The request breaks a business rule"},

@@ -10,8 +10,6 @@ class Settings(BaseSettings):
 
     app_name: str = "horarios"
     database_url: str = "sqlite:///./horarios.db"
-    secret_key: str = "change-me-in-production"
-    access_token_expire_minutes: int = 480
     cors_origins: list[str] = ["http://localhost:5173"]
 
     # Maximum wall-clock time a single solver run may take.

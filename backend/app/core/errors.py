@@ -33,13 +33,3 @@ class ValidationError(DomainError):
 
     code = "validation_error"
     status_code = 422
-
-
-class PermissionDeniedError(DomainError):
-    code = "permission_denied"
-    status_code = 403
-
-
-class AuthenticationError(DomainError):
-    code = "authentication_error"
-    status_code = 401
