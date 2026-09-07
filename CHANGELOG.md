@@ -6,6 +6,12 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [0.1.0] - 2026-09-07
+
+First release: a Windows installer and a Linux AppImage.
+
 ### Changed
 
 - **The application is now a Windows desktop program, not a server.** It runs on
