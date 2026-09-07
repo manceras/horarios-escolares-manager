@@ -43,7 +43,7 @@ feat(solver): add teacher availability constraint
 fix(api): return 409 when a group already has that subject
 ```
 
-Scopes: `api`, `solver`, `db`, `auth`, `web`, `ui`, `deps`, `ci`, `docs`.
+Scopes: `api`, `solver`, `db`, `desktop`, `web`, `ui`, `deps`, `ci`, `docs`.
 
 A pull request should do one thing, explain why, and leave `make check` green.
 If it changes behaviour a school would notice, say so in the description.

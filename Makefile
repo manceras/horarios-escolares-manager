@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: help setup dev dev-api dev-web check check-api check-web fix gen-api migrate migration seed build clean
+.PHONY: help setup dev dev-api dev-web check check-api check-web fix gen-api migrate migration seed desktop installer clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
@@ -49,9 +49,15 @@ migration: ## Create a migration: make migration name=add_rooms
 seed: ## Load development data
 	cd backend && uv run python scripts/seed.py
 
-build: ## Build the production images
-	docker compose build
+desktop: ## Run the desktop shell from source (native window, real data directory)
+	cd frontend && pnpm build
+	cd backend && WEB_CLIENT_DIR=../frontend/dist uv run --extra desktop python -m app.desktop
+
+installer: ## Build the executable. Produces a Windows installer only on Windows.
+	cd frontend && pnpm build
+	uv run --project backend --group build pyinstaller packaging/horarios.spec \
+		--noconfirm --clean --distpath dist --workpath build
 
 clean: ## Remove build output and caches
-	rm -rf frontend/dist openapi.json
+	rm -rf frontend/dist openapi.json dist build
 	find . -name __pycache__ -type d -prune -exec rm -rf {} +

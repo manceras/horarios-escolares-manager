@@ -43,12 +43,11 @@ Business rules and invariants. Raises `NotFoundError` / `ConflictError` from
 
 ## 6. Router — `backend/app/api/v1/rooms.py`
 
-Thin. Declares the path, the auth dependency and the response model, then calls
-the service. Register it in `app/api/v1/router.py`.
+Thin. Declares the path and the response model, then calls the service. Register it in `app/api/v1/router.py`.
 
 ```python
 @router.get("", response_model=list[RoomRead])
-def list_rooms(service: RoomServiceDep, _: ReadAccess) -> Sequence[Room]:
+def list_rooms(service: RoomServiceDep) -> Sequence[Room]:
     return service.list_all()
 ```
 

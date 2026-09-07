@@ -5,13 +5,14 @@ FastAPI + SQLAlchemy 2.0 + SQLite + OR-Tools. Read the root `CLAUDE.md` first.
 ## Layers — never skip one, never import upwards
 
 ```
-app/api/v1/*.py       HTTP: path, auth dependency, response model, delegate
+app/api/v1/*.py       HTTP: path, response model, delegate. No auth: see ADR 0006
 app/schemas/*.py      Pydantic in/out models
 app/services/*.py     business rules, invariants, transactions
 app/repositories/*.py queries for one aggregate
 app/models/*.py       SQLAlchemy tables
 app/solver/           pure timetable generation, no DB, no FastAPI
-app/core/             config, db session, security, errors, settings
+app/core/             config, db session, errors, settings
+app/desktop/          paths, backups, migrations, local server, updates, window
 ```
 
 `app/api/v1/teachers.py` + `app/services/teacher_service.py` +
@@ -28,6 +29,10 @@ app/core/             config, db session, security, errors, settings
 - The solver imports nothing from `app.models`, `app.core.db` or `fastapi`.
 - New model → import it in `app/models/__init__.py` → create a migration.
 - Any change to a route or a schema → `make gen-api` from the repo root.
+- **There is no current user.** No auth dependency, no role check, no owner
+  column. The program runs on one person's machine (ADR 0006).
+- `app/desktop/` may import from anywhere; nothing outside `app/api` may import
+  from it. Machine concerns must not leak into the business rules.
 
 ## Traps found the hard way
 
@@ -44,6 +49,10 @@ app/core/             config, db session, security, errors, settings
   `delete()` and a test for it. `app/main.py` maps an `IntegrityError` to a 409
   as a net, but a net is not a message: the service check is what tells the user
   what is actually in the way.
+- **A migration runs on a school's machine, unattended.** It is applied at
+  startup by `app/desktop/migrations.py`, with nobody watching and no backup but
+  the automatic one. Write it so it can fail safely, and never drop a column
+  holding data the user still needs.
 - **Order routes before path parameters.** `GET /curriculum-entries/workload`
   must be declared before `GET /curriculum-entries/{entry_id}`, or the int path
   parameter swallows it.
@@ -59,14 +68,14 @@ uv run mypy app
 uv run alembic upgrade head
 uv run alembic revision --autogenerate -m "add rooms"
 uv run python scripts/seed.py         # development data
+uv run --extra desktop python -m app.desktop   # the desktop shell
 ```
 
 ## Tests
 
 `tests/` mirrors `app/`. Use the `session` and `client` fixtures from
-`conftest.py`; `client` is already authenticated as an admin, so tests focus on
-behaviour rather than on tokens. Required for solver constraints, service
-invariants and bug fixes.
+`conftest.py`. Required for solver constraints, service invariants and bug
+fixes.
 
 ## Solver
 

@@ -23,17 +23,24 @@ Dependencies point downwards only. A layer never imports from the layer above it
 
 | Layer | Directory | Owns | Must not |
 |---|---|---|---|
-| API | `app/api/v1/` | HTTP routing, auth dependencies, status codes | Contain business rules or touch the ORM session directly |
+| API | `app/api/v1/` | HTTP routing, status codes, response models | Contain business rules or touch the ORM session directly |
 | Schemas | `app/schemas/` | Pydantic request/response models | Import SQLAlchemy models |
 | Services | `app/services/` | Business rules, invariants, transactions, orchestration | Know about HTTP (no `HTTPException`, raise domain errors) |
 | Repositories | `app/repositories/` | Queries and persistence for one aggregate | Contain business rules |
 | Models | `app/models/` | SQLAlchemy table definitions | Import services or schemas |
 | Solver | `app/solver/` | Timetable generation, pure and side-effect free | Touch the database or the session |
-| Core | `app/core/` | Config, database session, security, errors, dependencies | Import features |
+| Core | `app/core/` | Config, database session, errors, dependencies | Import features |
+| Desktop | `app/desktop/` | Paths, backups, startup migrations, the local server, updates, the window | Be imported by services, repositories, models or the solver |
 
 The solver is deliberately isolated: it receives a plain `SolverInput` dataclass
 and returns a `SolverResult`. It can be unit-tested and replaced (see
 `docs/adr/0003-cp-sat-solver.md`) without touching anything else.
+
+There is no authentication layer. The application runs on the user's own
+machine, bound to `127.0.0.1`, and the operating system account is the boundary
+— see `docs/adr/0006-desktop-application.md`. `app/desktop/` is the only place
+that knows about the machine; the domain must stay ignorant of it so it can be
+tested without one.
 
 ## Errors
 

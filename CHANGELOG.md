@@ -6,6 +6,20 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+
+- **The application is now a Windows desktop program, not a server.** It runs on
+  the planner's own machine as a single process bound to `127.0.0.1`, serving
+  the web client itself in a native window.
+
+### Removed
+
+- **Authentication.** There is no login, no user account and no role: the
+  machine's own account is the boundary. See
+  [ADR 0006](docs/adr/0006-desktop-application.md).
+- **`docker-compose.yml` and both Dockerfiles**, so that an application without
+  authentication cannot be exposed to a network in one command.
+
 ### Added
 
 - Domain model, migrations and development seed data for a primary school.
@@ -13,10 +27,14 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   teacher, group and room conflict constraints, availability, room types,
   weekly load, break slots and locked sessions.
 - `find_conflicts()`, an independent validator for manually edited timetables.
-- JWT authentication with `admin`, `head_of_studies` and `teacher` roles.
+- A Windows installer, built by CI on a tag and published with its SHA-256.
+- Automatic rotating backups of the database, taken on every start, and schema
+  migrations applied automatically so an update needs no intervention.
+- In-app update checking and one-click installation, with the download verified
+  against its published checksum before it is run.
 - Teachers REST endpoints and web page, as the reference vertical slice.
 - Generated frontend API client derived from the backend OpenAPI document.
-- Docker Compose deployment, pre-commit hooks and GitHub Actions CI.
+- Pre-commit hooks and GitHub Actions CI.
 - CRUD endpoints for rooms, subjects, class groups, time slots, teacher
   unavailability and curriculum entries, each with its business rules enforced
   in the service layer.

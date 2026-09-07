@@ -11,7 +11,7 @@ src/features/<x>/ components, hooks and forms of one domain area
 src/lib/api/      generated types, typed client, query keys
 src/components/ui shadcn/ui primitives (add with the CLI, edit rarely)
 src/components/   shared app-level components (QueryState, ...)
-src/app/          router, providers, layout, auth guard
+src/app/          router, providers, layout
 src/locales/      the only place Spanish text is allowed
 ```
 
@@ -32,6 +32,12 @@ slice. Copy them.
 - Errors are shown by translating the backend `code`, never by printing
   `detail`. Use `<QueryState />`.
 - Imports use the `@/` alias, not `../../..`.
+- **There is no login and no current user.** Every route is public: the app runs
+  on the user's own machine (ADR 0006). Do not add a guard, a token or a
+  "who am I" query.
+- **The reader is not technical.** No English fallback text, no error codes on
+  screen, no "check the console". Every failure the user can see must be a
+  translated sentence that says what to do next.
 
 ## Commands
 

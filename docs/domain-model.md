@@ -92,10 +92,9 @@ Constraints 1–8 are **hard**: a schedule violating them is invalid. Constraint
 and any future pedagogical preference are **soft**: the solver minimises their
 violations but a solution may break them.
 
-## Roles
+## Users and roles
 
-| Role | Can |
-|---|---|
-| `admin` | Everything, including managing users. |
-| `head_of_studies` | Manage all school data, run the solver, publish schedules. |
-| `teacher` | Read the published schedule and edit their own unavailability. |
+There are none. The application runs on one person's computer with no login;
+see [ADR 0006](adr/0006-desktop-application.md). A `User` table, roles and
+per-teacher permissions existed until that decision and were removed rather
+than left disabled.

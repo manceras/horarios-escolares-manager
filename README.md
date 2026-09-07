@@ -1,6 +1,7 @@
 # horarios-escolares-manager
 
-Open-source timetable planner for primary schools.
+Open-source timetable planner for primary schools. **A Windows program you
+install and double-click** — no server, no accounts, no password.
 
 Building a school timetable by hand takes a head of studies days of work and
 still ends up with a teacher booked in two classrooms at once. This project
@@ -20,7 +21,7 @@ review, adjust and print it.
 - [x] Domain model, migrations and seed data for a Spanish primary school
 - [x] Constraint solver (OR-Tools CP-SAT) with the hard constraints below, tested
 - [x] Independent timetable validator (`find_conflicts`) for manual edits
-- [x] JWT authentication with `admin` / `head_of_studies` / `teacher` roles
+- [x] Windows installer, automatic backups and in-app updates
 - [x] REST API for teachers, groups, subjects, rooms, time slots, availability
       and curriculum entries, with the business rules enforced in services
 - [x] Endpoints to run the solver, persist a schedule, publish it, and validate
@@ -33,8 +34,9 @@ review, adjust and print it.
 - [x] Weekly grid UI: run the solver, see conflicts, move and lock sessions with
       the server validating every edit, publish a schedule
 - [x] Printable views and CSV export per teacher, group and room
-- [ ] User management screen (accounts are created with `make create-user` today)
+- [ ] A signed installer (unsigned today, so Windows shows a SmartScreen warning)
 - [ ] More than one school year at a time
+- [ ] macOS and Linux builds
 
 Follow the issues if you want to help with any of the unchecked items.
 
@@ -62,51 +64,72 @@ See [`docs/domain-model.md`](docs/domain-model.md) for the full model.
 | Backend | FastAPI, SQLAlchemy 2.0, SQLite, Alembic, OR-Tools CP-SAT |
 | Frontend | Vite, React 19, TypeScript (strict), Tailwind v4, shadcn/ui, TanStack Query |
 | Tooling | uv, ruff, mypy --strict, ESLint, Prettier, pre-commit, GitHub Actions |
-| Deployment | Docker Compose |
+| Desktop | pywebview (Edge WebView2), PyInstaller, Inno Setup |
 
 The frontend API client is generated from the backend's OpenAPI document, so the
 contract cannot drift unnoticed.
 
-## Quick start
+## Installing it (for a school)
 
-Requirements: Python 3.12+ with [uv](https://docs.astral.sh/uv/), Node 22+ with
-pnpm, and Docker if you want the container deployment.
+Download `Horarios-Setup-x.y.z.exe` from the
+[latest release](https://github.com/manceras/horarios-escolares-manager/releases/latest)
+and run it. It installs for the current user, so it never asks for an
+administrator password, and it puts *Horarios* on the desktop and in the Start
+menu.
+
+The installer is not code-signed yet, so the first run shows **"Windows
+protected your PC"**. Click *More info*, then *Run anyway*. Verify the download
+against the `.sha256` published beside it if you want to be sure of it first.
+
+The program updates itself: when a new version exists it offers it in a strip
+across the top of the window, and one click installs it.
+
+### Where the data lives
+
+Everything is in one folder:
+
+```
+%LOCALAPPDATA%\Horarios\
+├── horarios.db      the school's data
+├── backups\         a copy from each of the last ten times it was opened
+└── horarios.log     what to send if something goes wrong
+```
+
+Copying that folder is a complete backup and a complete move to another
+computer. Uninstalling the program leaves it alone.
+
+## Running from source
+
+Requirements: Python 3.12+ with [uv](https://docs.astral.sh/uv/) and Node 22+
+with pnpm.
 
 ```sh
 git clone https://github.com/manceras/horarios-escolares-manager.git
 cd horarios-escolares-manager
 make setup
-cp backend/.env.example backend/.env
 make migrate
-make seed          # development data: admin@example.org / changeme
+make seed          # sample school: 6 groups, 9 teachers, 54 curriculum entries
 make dev           # API on :8000, web on :5173
 ```
 
 Interactive API docs: <http://localhost:8000/docs>.
 
-## Deployment
+`make desktop` runs the packaged shell — one process, native window, the real
+data directory — without building an installer.
+
+## Building the installer
+
+The Windows installer is built by GitHub Actions on a tag, because PyInstaller
+cannot cross-compile:
 
 ```sh
-cp .env.example .env      # set a real SECRET_KEY
-docker compose up -d --build
+# bump app.__version__ in backend/app/__init__.py first; CI checks it matches
+git tag v0.2.0 && git push origin v0.2.0
 ```
 
-The web app is served on port 8080 and proxies `/api` to the API container. The
-SQLite database lives in the `api-data` volume — back it up.
-
-### Creating the first account
-
-There is no public registration: a school's staff list is not self-service, and
-`make seed` is development data that must never be loaded into a real school.
-Create the first administrator from the command line, which prompts for the
-password so it never lands in your shell history:
-
-```sh
-make create-user                                               # local
-docker compose exec api uv run python scripts/create_user.py   # deployed
-```
-
-Later accounts are created the same way.
+The workflow builds the executable, wraps it with Inno Setup, publishes the
+SHA-256 next to it and attaches both to the release. To build by hand on a
+Windows machine, see [`packaging/`](packaging/).
 
 ## Everyday commands
 
@@ -115,7 +138,7 @@ make check      # lint, types and tests for both sides. Run before every commit
 make fix        # auto-fix formatting and lint
 make gen-api    # regenerate the frontend client after an API change
 make migration name=add_rooms
-make create-user    # create an account (prompts for the password)
+make desktop    # run the packaged desktop shell from source
 ```
 
 ## Contributing

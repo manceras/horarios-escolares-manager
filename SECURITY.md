@@ -13,14 +13,33 @@ so the problem can be fixed before it is disclosed.
 Include what you found, how to reproduce it, and what an attacker could do with
 it. You will get an acknowledgement within a few days.
 
-## Scope notes for self-hosters
+## The security model
 
-This application stores personal data about teachers and pupils' groups. If you
-deploy it in a school:
+This is a desktop application with **no authentication**, by design — see
+[ADR 0006](docs/adr/0006-desktop-application.md). One person builds the school's
+timetable on their own computer; the Windows account they log into is the
+boundary. The API binds `127.0.0.1` on a port chosen at startup, so nothing off
+that machine can reach it.
 
-- set a long random `SECRET_KEY`; the default value in `.env.example` is not one
-- serve it over HTTPS — access tokens travel in the `Authorization` header
-- restrict access to the SQLite volume and back it up somewhere encrypted
-- never run `make seed` against a real school: it inserts sample data and
-  accounts whose password is public. Create the first account with
-  `make create-user`, which prompts for a password of at least 12 characters
+Two things follow, and they matter:
+
+- **Never bind this application to a non-loopback interface.** Running
+  `uvicorn app.main:app --host 0.0.0.0` hands anyone on the school's network
+  read and write access to staff data. `docker-compose.yml` and the Dockerfiles
+  were removed for exactly this reason. If you want a shared instance, put
+  authentication back first.
+- **Never run `make seed` against a real school.** It inserts a fictional
+  6-group school and will interleave it with real data.
+
+It stores personal data about teachers and the groups they teach. The database
+lives unencrypted in the user profile (`%LOCALAPPDATA%\Horarios`), so it is
+protected by the machine's disk encryption and account password and by nothing
+else. On a shared or unencrypted computer, that is worth knowing before real
+staff data goes in.
+
+## Updates
+
+The application checks GitHub for new releases and can install them. Each
+download is verified against the SHA-256 published with the release before it is
+run, and a mismatch aborts the update. The installer itself is **not
+code-signed**, which is why Windows warns about it on first run.

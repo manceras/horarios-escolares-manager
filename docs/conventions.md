@@ -28,7 +28,7 @@ Avoid abbreviations; `curriculum_entry`, never `ce` or `entry`.
   comment explaining why.
 - SQLAlchemy 2.0 style: `Mapped[...]` / `mapped_column(...)`, `select()` queries.
 - Pydantic v2. Validation lives in schemas, not in routers.
-- No business logic in routers; a router is routing, auth and delegation.
+- No business logic in routers; a router is routing and delegation.
 - Comments explain *why*. If a comment explains *what*, rename things instead.
 
 ## TypeScript
@@ -57,7 +57,7 @@ chore(deps): bump vite to 7.1
 docs(adr): record the choice of CP-SAT
 ```
 
-Scopes: `api`, `solver`, `db`, `auth`, `web`, `ui`, `deps`, `ci`, `docs`.
+Scopes: `api`, `solver`, `db`, `desktop`, `web`, `ui`, `deps`, `ci`, `docs`.
 Branches: `feat/teacher-availability`, `fix/room-overlap`.
 One logical change per commit. Never commit generated files or `*.db`.
 

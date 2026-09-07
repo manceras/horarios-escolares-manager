@@ -1,6 +1,8 @@
 # horarios-escolares-manager
 
-Generador de horarios de código abierto para colegios de primaria.
+Generador de horarios de código abierto para colegios de primaria. **Un programa
+de Windows que se instala y se abre con doble clic**: sin servidor, sin cuentas,
+sin contraseña.
 
 Montar el horario de un colegio a mano le cuesta días de trabajo a jefatura de
 estudios, y aun así acaba con un profesor dando clase en dos aulas a la vez.
@@ -17,7 +19,7 @@ restricciones, para después revisarlo, ajustarlo e imprimirlo.
 - [x] Modelo de dominio, migraciones y datos de ejemplo de un colegio español
 - [x] Motor de restricciones (OR-Tools CP-SAT) con las restricciones duras de abajo, con tests
 - [x] Validador independiente de horarios (`find_conflicts`) para ediciones manuales
-- [x] Autenticación JWT con roles `admin` / `head_of_studies` / `teacher`
+- [x] Instalador de Windows, copias de seguridad automáticas y actualización desde la propia app
 - [x] API para profesorado, grupos, asignaturas, espacios, franjas,
       disponibilidad y carga lectiva, con las reglas de negocio en los servicios
 - [x] Endpoints para lanzar el solver, guardar y publicar un horario, y validar
@@ -30,8 +32,9 @@ restricciones, para después revisarlo, ajustarlo e imprimirlo.
 - [x] Rejilla semanal: lanzar el solver, ver conflictos, mover y bloquear
       sesiones con el servidor validando cada cambio, y publicar el horario
 - [x] Vistas imprimibles y exportación CSV por profesor, grupo y aula
-- [ ] Pantalla de gestión de usuarios (hoy se crean con `make create-user`)
+- [ ] Instalador firmado (hoy no lo está, así que Windows muestra un aviso de SmartScreen)
 - [ ] Más de un curso escolar a la vez
+- [ ] Versiones para macOS y Linux
 
 ## Restricciones que entiende el motor
 
@@ -50,46 +53,65 @@ Blandas — se minimizan, no se garantizan:
 
 El modelo completo está en [`docs/domain-model.md`](docs/domain-model.md).
 
-## Arranque rápido
+## Instalación (para el colegio)
 
-Requisitos: Python 3.12+ con [uv](https://docs.astral.sh/uv/), Node 22+ con
-pnpm, y Docker si quieres el despliegue en contenedores.
+Descarga `Horarios-Setup-x.y.z.exe` de la
+[última versión](https://github.com/manceras/horarios-escolares-manager/releases/latest)
+y ejecútalo. Se instala para el usuario actual, así que no pide contraseña de
+administrador, y deja *Horarios* en el escritorio y en el menú de inicio.
+
+El instalador todavía no está firmado, así que la primera vez Windows muestra
+**«Windows protegió su PC»**. Hay que pulsar *Más información* y después
+*Ejecutar de todas formas*. Si quieres comprobarlo antes, junto al instalador se
+publica su `.sha256`.
+
+El programa se actualiza solo: cuando hay una versión nueva la ofrece en una
+franja arriba de la ventana y se instala con un clic.
+
+### Dónde están los datos
+
+Todo vive en una sola carpeta:
+
+```
+%LOCALAPPDATA%\Horarios\
+├── horarios.db      los datos del colegio
+├── backups\         una copia de cada una de las últimas diez aperturas
+└── horarios.log     lo que hay que enviar si algo falla
+```
+
+Copiar esa carpeta es una copia de seguridad completa, y llevársela a otro
+ordenador es toda la mudanza. Desinstalar el programa no la borra.
+
+## Ejecutar desde el código
+
+Requisitos: Python 3.12+ con [uv](https://docs.astral.sh/uv/) y Node 22+ con
+pnpm.
 
 ```sh
 git clone https://github.com/manceras/horarios-escolares-manager.git
 cd horarios-escolares-manager
 make setup
-cp backend/.env.example backend/.env
 make migrate
-make seed          # datos de desarrollo: admin@example.org / changeme
+make seed          # colegio de ejemplo: 6 grupos, 9 profesores, 54 entradas
 make dev           # API en :8000, web en :5173
 ```
 
 Documentación interactiva de la API: <http://localhost:8000/docs>.
 
-## Despliegue
+`make desktop` arranca la aplicación de escritorio tal cual, sin construir el
+instalador.
+
+## Construir el instalador
+
+Lo construye GitHub Actions al publicar una etiqueta, porque PyInstaller no
+puede compilar para Windows desde otro sistema:
 
 ```sh
-cp .env.example .env      # pon un SECRET_KEY real
-docker compose up -d --build
+# antes hay que subir app.__version__ en backend/app/__init__.py; CI lo comprueba
+git tag v0.2.0 && git push origin v0.2.0
 ```
 
-La web se sirve en el puerto 8080 y hace de proxy de `/api` hacia el contenedor
-de la API. La base de datos SQLite vive en el volumen `api-data`: haz copia.
-
-### Crear la primera cuenta
-
-No hay registro público: el personal de un colegio no se da de alta solo, y
-`make seed` son datos de desarrollo que nunca deben cargarse en un colegio real.
-Crea el primer administrador desde la línea de comandos, que pide la contraseña
-para que no quede en el historial del shell:
-
-```sh
-make create-user                                               # en local
-docker compose exec api uv run python scripts/create_user.py   # desplegado
-```
-
-Las cuentas siguientes se crean igual.
+Los detalles están en [`packaging/`](packaging/).
 
 ## Contribuir
 
