@@ -1,11 +1,14 @@
 """FastAPI application factory and error handling."""
 
+from pathlib import Path
+
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
 
 from app.api.v1.router import api_router
+from app.api.web_client import mount_web_client
 from app.core.config import get_settings
 from app.core.errors import DomainError
 
@@ -56,6 +59,11 @@ def create_app() -> FastAPI:
         return {"status": "ok"}
 
     app.include_router(api_router)
+
+    # Registered last: its catch-all would otherwise shadow every API route.
+    if settings.web_client_dir:
+        mount_web_client(app, Path(settings.web_client_dir))
+
     return app
 
 

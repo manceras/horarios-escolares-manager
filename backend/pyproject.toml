@@ -13,6 +13,10 @@ dependencies = [
     "ortools>=9.11",
 ]
 
+[project.optional-dependencies]
+# Only the packaged desktop build needs a window; the API runs headless.
+desktop = ["pywebview>=5.3"]
+
 [dependency-groups]
 dev = [
     "pytest>=8.3",
@@ -67,3 +71,9 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+
+[[tool.mypy.overrides]]
+# pywebview ships no type stubs, and it is an optional dependency: it is absent
+# on the machines that only run the API.
+module = ["webview.*", "webview"]
+ignore_missing_imports = true

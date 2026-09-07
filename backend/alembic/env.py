@@ -8,7 +8,10 @@ from app.models import Base
 from sqlalchemy import engine_from_config, pool
 
 config = context.config
-config.set_main_option("sqlalchemy.url", get_settings().database_url)
+# The desktop shell builds a Config with the URL already set and no ini file
+# behind it; only fall back to the settings when nothing supplied one.
+if not config.get_main_option("sqlalchemy.url", default=None):
+    config.set_main_option("sqlalchemy.url", get_settings().database_url)
 
 if config.config_file_name is not None:
     fileConfig(config.config_file_name)
