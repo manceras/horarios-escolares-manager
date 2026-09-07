@@ -3,7 +3,7 @@
  * invalidation depends on these being written in exactly one place.
  */
 export const queryKeys = {
-  currentUser: ["current-user"] as const,
+  updateStatus: ["update-status"] as const,
   teachers: {
     all: ["teachers"] as const,
     detail: (id: number) => ["teachers", id] as const,

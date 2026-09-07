@@ -1,6 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+import { UpdateBanner } from "@/features/updates/UpdateBanner";
 import { cn } from "@/lib/utils";
 
 // Ordered the way a school sets its timetable up: staff, then structure, then
@@ -40,6 +41,7 @@ export function AppLayout() {
           </nav>
         </div>
       </header>
+      <UpdateBanner />
       <main className="mx-auto max-w-5xl px-4 py-6 print:max-w-none print:p-0">
         <Outlet />
       </main>

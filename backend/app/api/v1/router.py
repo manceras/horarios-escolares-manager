@@ -11,6 +11,7 @@ from app.api.v1 import (
     teacher_unavailabilities,
     teachers,
     time_slots,
+    updates,
 )
 
 api_router = APIRouter(prefix="/api/v1")
@@ -22,3 +23,4 @@ api_router.include_router(rooms.router)
 api_router.include_router(time_slots.router)
 api_router.include_router(curriculum_entries.router)
 api_router.include_router(schedules.router)
+api_router.include_router(updates.router)

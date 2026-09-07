@@ -302,5 +302,11 @@
     "validation": {
       "nameRequired": "El nombre es obligatorio."
     }
+  },
+  "updates": {
+    "available": "Hay una versión nueva disponible ({{version}}).",
+    "install": "Actualizar ahora",
+    "installing": "Actualizando…",
+    "manualHint": "Descárgala desde la página del proyecto."
   }
 }
