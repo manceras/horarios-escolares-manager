@@ -98,8 +98,11 @@ def check_for_update(url: str = RELEASES_URL) -> UpdateStatus:
     unavailable = UpdateStatus(__version__, None, False, None)
     try:
         release = _read_release(url)
-    except (urllib.error.URLError, OSError, TimeoutError, json.JSONDecodeError):
-        logger.info("Could not reach GitHub to check for updates", exc_info=True)
+    except (urllib.error.URLError, OSError, TimeoutError, json.JSONDecodeError) as error:
+        # One line, no traceback: a project with no releases yet answers 404 on
+        # every startup, and a stack trace in a school's log file reads like a
+        # fault when it is the ordinary case.
+        logger.info("Could not check for updates: %s", error)
         return unavailable
 
     if not isinstance(release, dict):

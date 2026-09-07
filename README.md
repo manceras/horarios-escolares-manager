@@ -1,7 +1,8 @@
 # horarios-escolares-manager
 
-Open-source timetable planner for primary schools. **A Windows program you
-install and double-click** — no server, no accounts, no password.
+Open-source timetable planner for primary schools. **A desktop program you
+install and double-click** — no server, no accounts, no password. Windows
+installer and Linux AppImage.
 
 Building a school timetable by hand takes a head of studies days of work and
 still ends up with a teacher booked in two classrooms at once. This project
@@ -21,7 +22,7 @@ review, adjust and print it.
 - [x] Domain model, migrations and seed data for a Spanish primary school
 - [x] Constraint solver (OR-Tools CP-SAT) with the hard constraints below, tested
 - [x] Independent timetable validator (`find_conflicts`) for manual edits
-- [x] Windows installer, automatic backups and in-app updates
+- [x] Windows installer and Linux AppImage, automatic backups, in-app updates
 - [x] REST API for teachers, groups, subjects, rooms, time slots, availability
       and curriculum entries, with the business rules enforced in services
 - [x] Endpoints to run the solver, persist a schedule, publish it, and validate
@@ -36,7 +37,8 @@ review, adjust and print it.
 - [x] Printable views and CSV export per teacher, group and room
 - [ ] A signed installer (unsigned today, so Windows shows a SmartScreen warning)
 - [ ] More than one school year at a time
-- [ ] macOS and Linux builds
+- [ ] macOS build
+- [ ] In-app updates on Linux (Windows only today)
 
 Follow the issues if you want to help with any of the unchecked items.
 
@@ -64,12 +66,14 @@ See [`docs/domain-model.md`](docs/domain-model.md) for the full model.
 | Backend | FastAPI, SQLAlchemy 2.0, SQLite, Alembic, OR-Tools CP-SAT |
 | Frontend | Vite, React 19, TypeScript (strict), Tailwind v4, shadcn/ui, TanStack Query |
 | Tooling | uv, ruff, mypy --strict, ESLint, Prettier, pre-commit, GitHub Actions |
-| Desktop | pywebview (Edge WebView2), PyInstaller, Inno Setup |
+| Desktop | pywebview (Edge WebView2), PyInstaller, Inno Setup, AppImage |
 
 The frontend API client is generated from the backend's OpenAPI document, so the
 contract cannot drift unnoticed.
 
 ## Installing it (for a school)
+
+### Windows
 
 Download `Horarios-Setup-x.y.z.exe` from the
 [latest release](https://github.com/manceras/horarios-escolares-manager/releases/latest)
@@ -84,15 +88,29 @@ against the `.sha256` published beside it if you want to be sure of it first.
 The program updates itself: when a new version exists it offers it in a strip
 across the top of the window, and one click installs it.
 
+### Linux
+
+Download `Horarios-x.y.z-x86_64.AppImage`, make it executable and run it:
+
+```sh
+chmod +x Horarios-*.AppImage
+./Horarios-*.AppImage
+```
+
+No package manager, no root, no install. It opens in a chromeless Chromium
+window where one is available, and in your default browser otherwise — see
+[`packaging/README.md`](packaging/README.md) for why there is no native window.
+Linux builds do not update themselves; the banner points at the releases page.
+
 ### Where the data lives
 
-Everything is in one folder:
+Everything is in one folder — `%LOCALAPPDATA%\Horarios\` on Windows,
+`~/.local/share/horarios/` on Linux:
 
 ```
-%LOCALAPPDATA%\Horarios\
-├── horarios.db      the school's data
-├── backups\         a copy from each of the last ten times it was opened
-└── horarios.log     what to send if something goes wrong
+horarios.db      the school's data
+backups/         a copy from each of the last ten times it was opened
+horarios.log     what to send if something goes wrong
 ```
 
 Copying that folder is a complete backup and a complete move to another
@@ -127,9 +145,9 @@ cannot cross-compile:
 git tag v0.2.0 && git push origin v0.2.0
 ```
 
-The workflow builds the executable, wraps it with Inno Setup, publishes the
-SHA-256 next to it and attaches both to the release. To build by hand on a
-Windows machine, see [`packaging/`](packaging/).
+The workflow builds both the Windows installer and the Linux AppImage, publishes
+a SHA-256 next to each and attaches them all to the release. `make appimage`
+builds the Linux one locally; see [`packaging/`](packaging/) for the rest.
 
 ## Everyday commands
 

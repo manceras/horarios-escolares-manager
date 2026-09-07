@@ -94,11 +94,74 @@ jobs:
             dist/Horarios-Setup-*.exe
             dist/Horarios-Setup-*.exe.sha256
 
-      - name: Attach the installer to the release
-        if: github.ref_type == 'tag'
+  linux-appimage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+
+      - name: Install the backend
+        run: uv sync --extra desktop --group build
+        working-directory: backend
+
+      - name: Resolve the version
+        id: version
+        run: |
+          declared=$(uv run --project backend python -c "import app; print(app.__version__)")
+          echo "value=$declared" >> "$GITHUB_OUTPUT"
+
+      - name: Build the web client
+        run: |
+          pnpm --dir frontend install --frozen-lockfile
+          uv run --project backend python backend/scripts/export_openapi.py openapi.json
+          pnpm --dir frontend gen:api
+          pnpm --dir frontend build
+
+      - name: Build the executable
+        run: |
+          uv run --project backend pyinstaller packaging/horarios.spec \
+            --noconfirm --clean --distpath dist --workpath build
+
+      - name: Build the AppImage
+        run: packaging/linux/build-appimage.sh "${{ steps.version.outputs.value }}"
+
+      - name: Publish the checksum
+        run: |
+          cd dist
+          sha256sum Horarios-*.AppImage > "$(ls Horarios-*.AppImage).sha256"
+          cat Horarios-*.AppImage.sha256
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-appimage
+          path: |
+            dist/Horarios-*.AppImage
+            dist/Horarios-*.AppImage.sha256
+
+  release:
+    needs: [windows-installer, linux-appimage]
+    if: github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - run: ls -R artifacts
+      - name: Publish the release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            dist/Horarios-Setup-*.exe
-            dist/Horarios-Setup-*.exe.sha256
+            artifacts/windows-installer/*
+            artifacts/linux-appimage/*
           generate_release_notes: true

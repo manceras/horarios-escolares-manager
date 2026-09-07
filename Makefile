@@ -1,5 +1,5 @@
 .DEFAULT_GOAL := help
-.PHONY: help setup dev dev-api dev-web check check-api check-web fix gen-api migrate migration seed desktop installer clean
+.PHONY: help setup dev dev-api dev-web check check-api check-web fix gen-api migrate migration seed desktop installer appimage clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
@@ -52,6 +52,9 @@ seed: ## Load development data
 desktop: ## Run the desktop shell from source (native window, real data directory)
 	cd frontend && pnpm build
 	cd backend && WEB_CLIENT_DIR=../frontend/dist uv run --extra desktop python -m app.desktop
+
+appimage: installer ## Build the Linux AppImage (requires a Linux host)
+	packaging/linux/build-appimage.sh $$(cd backend && uv run python -c "import app; print(app.__version__)")
 
 installer: ## Build the executable. Produces a Windows installer only on Windows.
 	cd frontend && pnpm build

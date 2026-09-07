@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Horarios
+GenericName=Timetable planner
+Comment=Genera el horario semanal del colegio
+Exec=Horarios
+Icon=horarios
+Categories=Office;Education;
+Terminal=false
+StartupWMClass=Horarios

@@ -27,7 +27,8 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   teacher, group and room conflict constraints, availability, room types,
   weekly load, break slots and locked sessions.
 - `find_conflicts()`, an independent validator for manually edited timetables.
-- A Windows installer, built by CI on a tag and published with its SHA-256.
+- A Windows installer and a Linux AppImage, built by CI on a tag and published
+  with a SHA-256 each.
 - Automatic rotating backups of the database, taken on every start, and schema
   migrations applied automatically so an update needs no intervention.
 - In-app update checking and one-click installation, with the download verified

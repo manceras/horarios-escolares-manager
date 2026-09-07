@@ -1,8 +1,8 @@
 # horarios-escolares-manager
 
 Generador de horarios de código abierto para colegios de primaria. **Un programa
-de Windows que se instala y se abre con doble clic**: sin servidor, sin cuentas,
-sin contraseña.
+de escritorio que se instala y se abre con doble clic**: sin servidor, sin
+cuentas, sin contraseña. Instalador de Windows y AppImage de Linux.
 
 Montar el horario de un colegio a mano le cuesta días de trabajo a jefatura de
 estudios, y aun así acaba con un profesor dando clase en dos aulas a la vez.
@@ -19,7 +19,7 @@ restricciones, para después revisarlo, ajustarlo e imprimirlo.
 - [x] Modelo de dominio, migraciones y datos de ejemplo de un colegio español
 - [x] Motor de restricciones (OR-Tools CP-SAT) con las restricciones duras de abajo, con tests
 - [x] Validador independiente de horarios (`find_conflicts`) para ediciones manuales
-- [x] Instalador de Windows, copias de seguridad automáticas y actualización desde la propia app
+- [x] Instalador de Windows y AppImage de Linux, copias de seguridad automáticas y actualización desde la propia app
 - [x] API para profesorado, grupos, asignaturas, espacios, franjas,
       disponibilidad y carga lectiva, con las reglas de negocio en los servicios
 - [x] Endpoints para lanzar el solver, guardar y publicar un horario, y validar
@@ -34,7 +34,8 @@ restricciones, para después revisarlo, ajustarlo e imprimirlo.
 - [x] Vistas imprimibles y exportación CSV por profesor, grupo y aula
 - [ ] Instalador firmado (hoy no lo está, así que Windows muestra un aviso de SmartScreen)
 - [ ] Más de un curso escolar a la vez
-- [ ] Versiones para macOS y Linux
+- [ ] Versión para macOS
+- [ ] Actualización desde la app en Linux (hoy solo en Windows)
 
 ## Restricciones que entiende el motor
 
@@ -55,6 +56,8 @@ El modelo completo está en [`docs/domain-model.md`](docs/domain-model.md).
 
 ## Instalación (para el colegio)
 
+### Windows
+
 Descarga `Horarios-Setup-x.y.z.exe` de la
 [última versión](https://github.com/manceras/horarios-escolares-manager/releases/latest)
 y ejecútalo. Se instala para el usuario actual, así que no pide contraseña de
@@ -68,15 +71,29 @@ publica su `.sha256`.
 El programa se actualiza solo: cuando hay una versión nueva la ofrece en una
 franja arriba de la ventana y se instala con un clic.
 
+### Linux
+
+Descarga `Horarios-x.y.z-x86_64.AppImage`, dale permisos y ejecútalo:
+
+```sh
+chmod +x Horarios-*.AppImage
+./Horarios-*.AppImage
+```
+
+Sin gestor de paquetes, sin root, sin instalar nada. Se abre en una ventana de
+Chromium sin pestañas ni barra de direcciones si la hay, y en el navegador por
+defecto si no. En Linux no se actualiza solo: el aviso lleva a la página de
+versiones.
+
 ### Dónde están los datos
 
-Todo vive en una sola carpeta:
+Todo vive en una sola carpeta — `%LOCALAPPDATA%\Horarios\` en Windows,
+`~/.local/share/horarios/` en Linux:
 
 ```
-%LOCALAPPDATA%\Horarios\
-├── horarios.db      los datos del colegio
-├── backups\         una copia de cada una de las últimas diez aperturas
-└── horarios.log     lo que hay que enviar si algo falla
+horarios.db      los datos del colegio
+backups/         una copia de cada una de las últimas diez aperturas
+horarios.log     lo que hay que enviar si algo falla
 ```
 
 Copiar esa carpeta es una copia de seguridad completa, y llevársela a otro

@@ -1,13 +1,14 @@
 # Packaging
 
-The school downloads one file: `Horarios-Setup-x.y.z.exe`. This directory is how
-it gets built.
+The school downloads one file: `Horarios-Setup-x.y.z.exe` on Windows, or
+`Horarios-x.y.z-x86_64.AppImage` on Linux. This directory is how they get built.
 
 | File | What it does |
 |---|---|
 | `horarios.spec` | PyInstaller build: Python, the API, the solver, the migrations and the built web client into `dist/Horarios/` |
 | `horarios.iss` | Inno Setup: wraps that directory into the single installer, with shortcuts and an uninstall entry |
 | `horarios.ico` | The icon, generated from `horarios.png` |
+| `linux/` | AppRun, `.desktop` entry and the script that turns the same bundle into an AppImage |
 
 ## Building
 
@@ -27,8 +28,23 @@ uv run --project backend pyinstaller packaging/horarios.spec --noconfirm --clean
 ```
 
 `make installer` does everything up to the last line on any platform, which is
-enough to check the spec still works — the Linux build runs, it just cannot be
-shipped to a school.
+enough to check the spec still works.
+
+## Linux
+
+`make appimage` produces `dist/Horarios-x.y.z-x86_64.AppImage`: one file, no
+package manager, no root, running on any distribution recent enough to matter.
+It is built by the same workflow, on an Ubuntu runner.
+
+The AppImage does **not** open a native window. pywebview needs WebKitGTK and
+its Python bindings, and shipping those inside a relocatable bundle breaks
+across distributions in ways that are not worth the support. Instead the program
+opens a Chromium-family browser with `--app=`, which gives a window with no
+tabs, no address bar and no bookmarks, and falls back to an ordinary browser tab
+if it finds none. On Windows the native window is the normal path.
+
+Linux builds do not update themselves: the in-app updater only recognises the
+Windows installer, so the banner points at the releases page instead.
 
 ## Things that are the way they are on purpose
 
