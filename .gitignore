@@ -13,6 +13,10 @@ node_modules/
 dist/
 .vite/
 
+# PyInstaller intermediates (dist/ is already ignored above)
+build/
+*.spec.bak
+
 # Data & secrets
 *.db
 *.sqlite3

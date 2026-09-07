@@ -1,0 +1,104 @@
+name: Release
+
+# Tagging is the whole release process: push v1.2.3 and a school gets an
+# installer they can download, and the copies already installed offer it to
+# them the next time they open the program.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows-installer:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+
+      - name: Install the backend
+        run: uv sync --extra desktop --group build
+        working-directory: backend
+
+      # The version the program reports is the one the updater compares against,
+      # so it is the single source here too. A build whose version trailed its
+      # tag would tell every installation an update was available, install
+      # itself, and find the same answer on the next launch.
+      - name: Resolve the version
+        id: version
+        shell: bash
+        run: |
+          declared=$(uv run --project backend python -c "import app; print(app.__version__)")
+          echo "value=$declared" >> "$GITHUB_OUTPUT"
+          if [ "${GITHUB_REF_TYPE}" = "tag" ]; then
+            tag="${GITHUB_REF_NAME#v}"
+            if [ "$tag" != "$declared" ]; then
+              echo "::error::app.__version__ is $declared but the tag is $tag."
+              echo "::error::Update backend/app/__init__.py and re-tag."
+              exit 1
+            fi
+          fi
+          echo "Building version $declared"
+
+      - name: Build the web client
+        shell: bash
+        run: |
+          pnpm --dir frontend install --frozen-lockfile
+          uv run --project backend python backend/scripts/export_openapi.py openapi.json
+          pnpm --dir frontend gen:api
+          pnpm --dir frontend build
+
+      - name: Build the executable
+        shell: bash
+        run: |
+          uv run --project backend pyinstaller packaging/horarios.spec \
+            --noconfirm --clean --distpath dist --workpath build
+
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Build the installer
+        shell: pwsh
+        run: |
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" `
+            "/DAppVersion=${{ steps.version.outputs.value }}" packaging\horarios.iss
+
+      # The installed program refuses to run an update whose digest does not
+      # match this file, so it travels with the installer.
+      - name: Publish the checksum
+        shell: pwsh
+        run: |
+          Get-ChildItem dist\Horarios-Setup-*.exe | ForEach-Object {
+            $hash = (Get-FileHash -Algorithm SHA256 $_.FullName).Hash.ToLower()
+            "$hash  $($_.Name)" | Set-Content -NoNewline "$($_.FullName).sha256"
+          }
+          Get-ChildItem dist\Horarios-Setup-*
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: |
+            dist/Horarios-Setup-*.exe
+            dist/Horarios-Setup-*.exe.sha256
+
+      - name: Attach the installer to the release
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/Horarios-Setup-*.exe
+            dist/Horarios-Setup-*.exe.sha256
+          generate_release_notes: true
